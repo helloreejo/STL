@@ -1,0 +1,1272 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Santo Tech Labs</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;700&family=Solway:wght@300;700&family=Sora:wght@100;200;300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@14.2.0/swiper-bundle.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.css"
+    />
+    <link rel="stylesheet" href="./css/output.css" />
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"
+      defer
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"
+      defer
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@14.2.0/swiper-bundle.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js" defer></script>
+    <script src="./js/script.js" defer></script>
+  </head>
+  <body class="bg-hero-bg font-sora text-white">
+    <a
+      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-black focus:px-4 focus:py-2 focus:text-white"
+      href="#main"
+      >Skip to main content</a
+    >
+
+    <!-- ============================================================ -->
+    <!-- HERO with floating header                                     -->
+    <!-- ============================================================ -->
+    <section data-hero class="relative overflow-hidden bg-hero-bg" aria-label="Hero">
+      <div
+        class="pointer-events-none absolute inset-0 opacity-50 starfield"
+      ></div>
+
+      <!-- Floating pill header -->
+      <header
+        data-nav
+        class="site-header z-40 flex items-center justify-between gap-6"
+      >
+        <a
+          href="#main"
+          class="flex items-center gap-3 leading-none"
+          aria-label="Santo Tech Labs home"
+        >
+          <img src="assets/images/logo.svg" alt="STL" class="site-logo" />
+        </a>
+
+        <nav aria-label="Primary" class="ml-auto hidden items-center gap-5 text-[15px] xl:flex">
+          <a
+            href="#services"
+            class="nav-link font-medium"
+            aria-current="page"
+            >Services</a
+          >
+          <span aria-hidden="true" class="text-white/15">|</span>
+          <a href="#partner" class="nav-link font-medium"
+            >Client Services</a
+          >
+          <span aria-hidden="true" class="text-white/15">|</span>
+          <a href="#model" class="nav-link font-medium">Engagement</a>
+          <span aria-hidden="true" class="text-white/15">|</span>
+          <a href="#care" class="nav-link font-medium">How We Work</a>
+          <span aria-hidden="true" class="text-white/15">|</span>
+          <a href="#footer" class="nav-link font-medium">Global</a>
+        </nav>
+
+        <div class="flex items-center gap-2">
+          <a
+            href="#contact"
+            aria-label="Call us"
+            class="header-icon-btn hidden h-10 w-10 items-center justify-center text-white/80 hover:text-white sm:inline-flex"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              class="h-5 w-5"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.7"
+            >
+              <path
+                d="M22 16.92v3a2 2 0 01-2.18 2 19.86 19.86 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.86 19.86 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.13.96.37 1.9.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0122 16.92z"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </a>
+          <button
+            type="button"
+            data-nav-toggle
+            aria-controls="mobile-nav"
+            aria-expanded="false"
+            aria-label="Open menu"
+            class="header-icon-btn inline-flex h-10 w-10 items-center justify-center text-white/80 hover:text-white"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              class="h-5 w-5"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+            >
+              <path d="M3 6h18M3 12h18M3 18h18" stroke-linecap="round" />
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- Mobile nav panel -->
+      <nav
+        id="mobile-nav"
+        data-nav-panel
+        hidden
+        aria-label="Mobile"
+        class="mobile-nav-panel rounded-2xl border border-white/10 bg-[#06122a]/95 px-6 py-5 backdrop-blur xl:hidden"
+      >
+        <ul class="flex flex-col gap-3 text-sm">
+          <li>
+            <a href="#services" class="block text-white/85 hover:text-white"
+              >Services</a
+            >
+          </li>
+          <li>
+            <a href="#partner" class="block text-white/85 hover:text-white"
+              >Client Services</a
+            >
+          </li>
+          <li>
+            <a href="#model" class="block text-white/85 hover:text-white"
+              >Engagement</a
+            >
+          </li>
+          <li>
+            <a href="#care" class="block text-white/85 hover:text-white"
+              >How We Work</a
+            >
+          </li>
+          <li>
+            <a href="#footer" class="block text-white/85 hover:text-white"
+              >Global</a
+            >
+          </li>
+        </ul>
+      </nav>
+
+      <main id="main">
+        <div
+          class="mx-auto flex w-full max-w-[1280px] flex-col-reverse items-center gap-12 px-6 pt-32 pb-16 xl:min-h-[998px] xl:flex-row xl:items-center xl:justify-between xl:gap-10 xl:px-0 xl:pt-[180px] xl:pb-[47px]"
+        >
+          <div class="flex w-full flex-col gap-16 xl:w-[642px] xl:gap-[101px]">
+            <div class="flex w-full flex-col gap-[30px]">
+              <h1
+                data-hero-title
+                class="font-sora text-[38px] font-extrabold leading-[1.16] text-white sm:text-5xl xl:text-[68px] xl:leading-[79px]"
+              >
+                We build the solution that
+                <span class="hero-gradient-text"
+                  >moves your business forward</span
+                >.
+              </h1>
+
+              <p
+                data-hero-desc
+                class="font-nunito text-base font-light leading-[1.65] text-white sm:text-lg xl:text-[22px] xl:leading-[36px]"
+              >
+                Santo Tech Labs is a global technology company delivering web
+                development, app development, custom software, and AI-enabled IT
+                services — engineered by senior teams, supported around the
+                clock, and trusted by organizations worldwide.
+              </p>
+
+              <div data-hero-ctas class="flex flex-wrap items-center gap-4">
+                <a
+                  href="#contact"
+                  class="hero-cta-primary inline-flex h-[60px] items-center justify-center gap-3 rounded-full border border-white/20 px-12 font-sora text-[18px] font-light text-white"
+                >
+                  Start a Project
+                  <img
+                    src="./assets/icons/arrow-right-primary.svg"
+                    alt=""
+                    width="20"
+                    height="20"
+                    class="h-5 w-5"
+                  />
+                </a>
+                <a
+                  href="#services"
+                  class="hero-cta-secondary inline-flex h-[60px] items-center gap-2.5 rounded-full border border-hero-border px-12 font-sora text-[18px] font-light text-white"
+                >
+                  Explore our services
+                  <img
+                    src="./assets/icons/arrow-right-secondary.svg"
+                    alt=""
+                    width="16"
+                    height="16"
+                    class="h-4 w-4"
+                  />
+                </a>
+              </div>
+            </div>
+
+            <div data-hero-proof>
+              <div class="flex flex-wrap items-center gap-4">
+                <div class="flex items-center">
+                  <img
+                    src="./assets/images/avatar-1.png"
+                    alt=""
+                    width="38"
+                    height="38"
+                    loading="lazy"
+                    class="-mr-3 h-[38px] w-[38px] rounded-full border-2 border-hero-bg object-cover"
+                  />
+                  <img
+                    src="./assets/images/avatar-2.png"
+                    alt=""
+                    width="38"
+                    height="38"
+                    loading="lazy"
+                    class="-mr-3 h-[38px] w-[38px] rounded-full border-2 border-hero-bg object-cover"
+                  />
+                  <img
+                    src="./assets/images/avatar-3.png"
+                    alt=""
+                    width="38"
+                    height="38"
+                    loading="lazy"
+                    class="-mr-3 h-[38px] w-[38px] rounded-full border-2 border-hero-bg object-cover"
+                  />
+                  <img
+                    src="./assets/images/avatar-4.png"
+                    alt=""
+                    width="38"
+                    height="38"
+                    loading="lazy"
+                    class="-mr-3 h-[38px] w-[38px] rounded-full border-2 border-hero-bg object-cover"
+                  />
+                  <span
+                    class="flex h-[38px] w-[38px] items-center justify-center rounded-full border-2 border-hero-bg bg-hero-badge font-sora text-[11px] font-bold text-hero-cyan"
+                    aria-label="Plus 120 more clients"
+                    >+120</span
+                  >
+                </div>
+                <div class="flex flex-col gap-0.5">
+                  <p class="font-sora text-[13px] leading-[18px] text-white">
+                    Trusted by
+                    <span class="font-bold text-hero-cyan">250+ clients</span>
+                  </p>
+                  <p class="font-sora text-[12px] leading-none text-hero-muted">
+                    across 30+ countries
+                  </p>
+                </div>
+              </div>
+              <p class="mt-4 font-sora text-[13px] leading-[18px] text-white">
+                Partnering with clients across education · healthcare · finance
+                · retail · logistics · the public sector
+              </p>
+            </div>
+          </div>
+
+          <div
+            data-hero-image
+            class="w-full max-w-[587px] xl:h-[805px] xl:w-[587px] xl:shrink-0"
+          >
+            <img
+              src="./assets/images/hero-tree.png"
+              alt="Stylized tree formed from a glowing blue and purple wireframe network"
+              width="587"
+              height="805"
+              class="h-full w-full object-contain object-bottom"
+            />
+          </div>
+        </div>
+      </main>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- SECTION 2 — A partner, not a vendor (Figma node 1:1918)       -->
+    <!-- ============================================================ -->
+    <section id="partner" class="partner-section relative overflow-hidden">
+      <div
+        class="mx-auto flex w-full max-w-[1280px] flex-col items-center px-6 py-[60px] lg:px-0 lg:py-[100px]"
+      >
+        <!-- Title block -->
+        <div
+          data-reveal-block
+          class="flex w-full flex-col items-start gap-[20px]"
+        >
+          <h2
+            class="partner-title text-[38px] leading-[1.16] sm:text-[52px] sm:leading-[1.15] xl:text-[68px] xl:leading-[79px]"
+          >
+            A partner, not a vendor<span class="partner-title-period">.</span>
+          </h2>
+          <p
+            class="partner-subtitle text-[18px] leading-[1.4] sm:text-[22px] xl:text-[30px]"
+          >
+            Great software is only half the job. From first consultation to
+            long-term care, our client services wrap every engagement with the
+            communication, support, and accountability of a true partner.
+          </p>
+        </div>
+
+        <!-- Cards grid -->
+        <div class="mt-[40px] flex w-full flex-col gap-[24px] xl:mt-[50px]">
+          <!-- Row 1: 410 + 844 -->
+          <div class="flex flex-col gap-[24px] xl:flex-row xl:items-start">
+            <!-- Card 1: Dedicated Account Management (410 x 400) -->
+            <article
+              data-reveal-card
+              class="partner-card flex w-full flex-col justify-center gap-[24px] xl:h-[400px] xl:w-[410px] xl:gap-[36px]"
+            >
+              <div class="h-[60px] w-[60px] shrink-0">
+                <img
+                  src="./assets/partner/icons/dedicated.svg"
+                  alt=""
+                  width="60"
+                  height="60"
+                  class="h-full w-full"
+                />
+              </div>
+              <h3
+                class="partner-card-title text-[22px] leading-[1.15] xl:text-[28px]"
+              >
+                Dedicated Account Management
+              </h3>
+              <p
+                class="partner-card-desc text-[16px] leading-[24px] xl:text-[20px] xl:leading-[26px]"
+              >
+                One named contact who knows your account inside out.
+              </p>
+            </article>
+
+            <!-- Card 2: Discovery & Onboarding (844 x 400) — wide, two columns -->
+            <article
+              data-reveal-card
+              class="partner-card flex w-full flex-col items-start gap-[36px] xl:h-[400px] xl:w-[844px] xl:flex-row xl:items-center"
+            >
+              <div
+                class="flex flex-1 flex-col items-start gap-[24px] xl:gap-[36px]"
+              >
+                <div class="h-[60px] w-[60px] shrink-0">
+                  <img
+                    src="./assets/partner/icons/discovery.svg"
+                    alt=""
+                    width="60"
+                    height="60"
+                    class="h-full w-full"
+                  />
+                </div>
+                <h3
+                  class="partner-card-title text-[22px] leading-[1.15] xl:text-[28px]"
+                >
+                  Discovery &amp;<br class="hidden xl:inline" />
+                  Onboarding
+                </h3>
+                <p
+                  class="partner-card-desc text-[16px] leading-[24px] xl:text-[20px] xl:leading-[26px]"
+                >
+                  We start by understanding your business — not by writing code.
+                </p>
+              </div>
+              <ul
+                class="flex flex-1 flex-col justify-center gap-[20px] self-stretch xl:gap-[26px]"
+              >
+                <li class="flex items-center gap-[12px]">
+                  <span class="partner-bullet-icon" style="background: #8a65d5">
+                    <img
+                      src="./assets/partner/icons/message-circle.svg"
+                      alt=""
+                      width="18"
+                      height="18"
+                      class="h-[18px] w-[18px]"
+                    />
+                  </span>
+                  <span class="partner-bullet-text"
+                    >Free consultation &amp; scoping workshop</span
+                  >
+                </li>
+                <li class="flex items-center gap-[12px]">
+                  <span class="partner-bullet-icon" style="background: #3e51e3">
+                    <img
+                      src="./assets/partner/icons/layers.svg"
+                      alt=""
+                      width="18"
+                      height="18"
+                      class="h-[18px] w-[18px]"
+                    />
+                  </span>
+                  <span class="partner-bullet-text"
+                    >Requirements &amp; solution architecture</span
+                  >
+                </li>
+                <li class="flex items-center gap-[12px]">
+                  <span class="partner-bullet-icon" style="background: #0085cd">
+                    <img
+                      src="./assets/partner/icons/file-text.svg"
+                      alt=""
+                      width="18"
+                      height="18"
+                      class="h-[18px] w-[18px]"
+                    />
+                  </span>
+                  <span class="partner-bullet-text"
+                    >Transparent, fixed proposal</span
+                  >
+                </li>
+                <li class="flex items-center gap-[12px]">
+                  <span class="partner-bullet-icon" style="background: #4628cc">
+                    <img
+                      src="./assets/partner/icons/check-circle.svg"
+                      alt=""
+                      width="18"
+                      height="18"
+                      class="h-[18px] w-[18px]"
+                    />
+                  </span>
+                  <span class="partner-bullet-text"
+                    >Agreed scope &amp; success criteria</span
+                  >
+                </li>
+              </ul>
+            </article>
+          </div>
+
+          <!-- Row 2: 410 x 3 -->
+          <div class="flex flex-col gap-[24px] xl:flex-row xl:items-start">
+            <article
+              data-reveal-card
+              class="partner-card flex w-full flex-col justify-center gap-[24px] xl:h-[400px] xl:w-[410px] xl:gap-[36px]"
+            >
+              <div
+                class="flex h-[60px] w-[60px] shrink-0 items-center justify-center p-[8px]"
+              >
+                <img
+                  src="./assets/partner/icons/reusable.svg"
+                  alt=""
+                  width="60"
+                  height="60"
+                  class="h-full w-full"
+                />
+              </div>
+              <h3
+                class="partner-card-title text-[22px] leading-[1.15] xl:text-[28px]"
+              >
+                Managed Support &amp; SLAs
+              </h3>
+              <p
+                class="partner-card-desc text-[16px] leading-[24px] xl:text-[20px] xl:leading-[26px]"
+              >
+                Tiered plans that keep your systems healthy and secure.
+              </p>
+            </article>
+
+            <article
+              data-reveal-card
+              class="partner-card flex w-full flex-col justify-center gap-[24px] xl:h-[400px] xl:w-[410px] xl:gap-[36px]"
+            >
+              <div
+                class="flex h-[60px] w-[60px] shrink-0 items-center justify-center p-[8px]"
+              >
+                <img
+                  src="./assets/partner/icons/reusable.svg"
+                  alt=""
+                  width="60"
+                  height="60"
+                  class="h-full w-full"
+                />
+              </div>
+              <h3
+                class="partner-card-title text-[22px] leading-[1.15] xl:text-[28px]"
+              >
+                Continuous Improvement
+              </h3>
+              <p
+                class="partner-card-desc text-[16px] leading-[24px] xl:text-[20px] xl:leading-[26px]"
+              >
+                Go-live is the start of the relationship, not the end.
+              </p>
+            </article>
+
+            <article
+              data-reveal-card
+              class="partner-card flex w-full flex-col justify-center gap-[24px] xl:h-[400px] xl:w-[410px] xl:gap-[36px]"
+            >
+              <div
+                class="flex h-[60px] w-[60px] shrink-0 items-center justify-center p-[8px]"
+              >
+                <img
+                  src="./assets/partner/icons/reusable.svg"
+                  alt=""
+                  width="60"
+                  height="60"
+                  class="h-full w-full"
+                />
+              </div>
+              <h3
+                class="partner-card-title text-[22px] leading-[1.15] xl:text-[28px]"
+              >
+                Resource Augmentation
+              </h3>
+              <p
+                class="partner-card-desc text-[16px] leading-[24px] xl:text-[20px] xl:leading-[26px]"
+              >
+                Senior engineers embedded directly in your team.
+              </p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- SECTION 3 — Distributed model (Figma node 1:1984)             -->
+    <!-- ============================================================ -->
+    <section
+      id="model"
+      data-distributed
+      class="distributed-section pt-[100px] pb-[140px]"
+    >
+      <div aria-hidden="true" class="distributed-bg"></div>
+
+      <div
+        class="relative mx-auto flex w-full max-w-[1280px] items-center justify-center rounded-[20px] px-6 py-[10px] xl:px-[90px] distributed-card"
+      >
+        <div
+          class="flex w-full flex-col gap-[60px] py-[60px] xl:flex-row xl:gap-[30px] xl:py-[100px]"
+        >
+          <!-- LEFT: title + subtitle + butterflies (480px, right-aligned on desktop) -->
+          <div
+            class="flex flex-col items-center gap-[20px] xl:w-[480px] xl:items-end"
+          >
+            <h2
+              class="distributed-title w-full text-center text-[38px] leading-[1.1] xl:text-right xl:text-[60px] xl:leading-[65px]"
+            >
+              A distributed model, one standard of work<span
+                class="distributed-title-period"
+                >.</span
+              >
+            </h2>
+            <p
+              class="distributed-subtitle w-full text-center text-[18px] leading-[1.5] xl:text-right xl:text-[30px] xl:leading-[normal]"
+            >
+              Our structure keeps engagement and governance close to the client
+              while delivering from a deep engineering base — and keeps work
+              moving while you sleep.
+            </p>
+            <img
+              src="./assets/images/butterflies.png"
+              alt=""
+              aria-hidden="true"
+              width="480"
+              height="452"
+              loading="lazy"
+              class="mt-4 w-[280px] xl:w-[480px]"
+            />
+          </div>
+
+          <!-- MIDDLE: animated timeline (32px column) -->
+          <div class="timeline hidden xl:block" data-timeline>
+            <div class="timeline-track"></div>
+            <div class="timeline-fill" data-timeline-fill></div>
+            <span class="timeline-dot" data-timeline-dot="0"></span>
+            <span class="timeline-dot" data-timeline-dot="1"></span>
+            <span class="timeline-dot" data-timeline-dot="2"></span>
+            <span class="timeline-dot" data-timeline-dot="3"></span>
+          </div>
+
+          <!-- RIGHT: 4 process steps -->
+          <ol class="flex flex-1 flex-col gap-[30px] xl:gap-0" data-steps>
+            <li
+              class="step flex flex-col gap-[10px] px-0 xl:px-[32px] xl:pb-[30px]"
+              data-step="0"
+            >
+              <span class="step-number">01</span>
+              <h3 class="step-title">Experience Design</h3>
+              <p class="step-desc">
+                The core build capacity — software, AI, cloud, QA, and design —
+                resourced for every global engagement.
+              </p>
+            </li>
+            <li
+              class="step flex flex-col gap-[10px] px-0 xl:px-[32px] xl:py-[30px]"
+              data-step="1"
+            >
+              <span class="step-number">02</span>
+              <h3 class="step-title">Technology</h3>
+              <p class="step-desc">
+                Commercial governance, contracting, and account leadership,
+                aligned to your working hours and standards.
+              </p>
+            </li>
+            <li
+              class="step flex flex-col gap-[10px] px-0 xl:px-[32px] xl:py-[30px]"
+              data-step="2"
+            >
+              <span class="step-number">03</span>
+              <h3 class="step-title">Digital Marketing</h3>
+              <p class="step-desc">
+                Service desk and monitoring coverage that extends the operating
+                window across the working day.
+              </p>
+            </li>
+            <li
+              class="step flex flex-col gap-[10px] px-0 xl:px-[32px] xl:py-[30px]"
+              data-step="3"
+            >
+              <span class="step-number">04</span>
+              <h3 class="step-title">Branding</h3>
+              <p class="step-desc">
+                Documented systems, cross-trained engineers, and handover packs
+                so no engagement depends on one person.
+              </p>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- SECTION 4 — Counter / stats bar (Figma node 1:2200)           -->
+    <!-- ============================================================ -->
+    <section class="counter-section" aria-label="SantoTech Labs by the numbers">
+      <div aria-hidden="true" class="counter-bg"></div>
+
+      <div
+        class="relative mx-auto flex w-full max-w-[1280px] items-center justify-center px-6 py-[40px] xl:py-[60px]"
+      >
+        <dl
+          class="counter-row grid grid-cols-2 gap-x-6 gap-y-[32px] px-0 py-0 text-center sm:grid-cols-3 xl:flex xl:items-start xl:justify-center xl:gap-[50px] xl:px-[40px] xl:py-[20px]"
+        >
+          <div
+            data-reveal-stat
+            class="flex flex-col items-center justify-center xl:items-start xl:border-r xl:border-[#d8cfef] xl:pr-[30px]"
+          >
+            <dd class="flex items-end justify-center">
+              <span
+                class="counter-value text-[34px] leading-[42px] sm:text-[42px] sm:leading-[50px] xl:text-[50px] xl:leading-[60px]"
+                >10</span
+              >
+              <span
+                class="counter-plus w-[26px] text-center text-[26px] leading-[36px] sm:w-[34px] sm:text-[34px] sm:leading-[45px] xl:w-[40px] xl:text-[40px] xl:leading-[54px]"
+                >+</span
+              >
+            </dd>
+            <dt
+              class="counter-label text-[14px] leading-normal sm:text-[16px] xl:whitespace-nowrap xl:text-[20px]"
+            >
+              Projects Delivered
+            </dt>
+          </div>
+
+          <div
+            data-reveal-stat
+            class="flex flex-col items-center justify-center xl:items-start xl:border-r xl:border-[#d8cfef] xl:pr-[30px]"
+          >
+            <dd class="flex items-end justify-center">
+              <span
+                class="counter-value text-[34px] leading-[42px] sm:text-[42px] sm:leading-[50px] xl:text-[50px] xl:leading-[60px]"
+                >5</span
+              >
+              <span
+                class="counter-plus w-[26px] text-center text-[26px] leading-[36px] sm:w-[34px] sm:text-[34px] sm:leading-[45px] xl:w-[40px] xl:text-[40px] xl:leading-[54px]"
+                >+</span
+              >
+            </dd>
+            <dt
+              class="counter-label text-[14px] leading-normal sm:text-[16px] xl:whitespace-nowrap xl:text-[20px]"
+            >
+              Countries
+            </dt>
+          </div>
+
+          <div
+            data-reveal-stat
+            class="flex flex-col items-center justify-center xl:items-start xl:border-r xl:border-[#d8cfef] xl:pr-[30px]"
+          >
+            <dd class="flex items-end justify-center">
+              <span
+                class="counter-value text-[34px] leading-[42px] sm:text-[42px] sm:leading-[50px] xl:text-[50px] xl:leading-[60px]"
+                >2M</span
+              >
+              <span
+                class="counter-plus w-[26px] text-center text-[26px] leading-[36px] sm:w-[34px] sm:text-[34px] sm:leading-[45px] xl:w-[40px] xl:text-[40px] xl:leading-[54px]"
+                >+</span
+              >
+            </dd>
+            <dt
+              class="counter-label text-[14px] leading-normal sm:text-[16px] xl:whitespace-nowrap xl:text-[20px]"
+            >
+              Users Reached
+            </dt>
+          </div>
+
+          <div
+            data-reveal-stat
+            class="flex flex-col items-center justify-center xl:items-start xl:border-r xl:border-[#d8cfef] xl:pr-[30px]"
+          >
+            <dd class="flex items-end justify-center">
+              <span
+                class="counter-value text-[34px] leading-[42px] sm:text-[42px] sm:leading-[50px] xl:text-[50px] xl:leading-[60px]"
+                >50</span
+              >
+              <span
+                class="counter-plus w-[26px] text-center text-[26px] leading-[36px] sm:w-[34px] sm:text-[34px] sm:leading-[45px] xl:w-[40px] xl:text-[40px] xl:leading-[54px]"
+                >+</span
+              >
+            </dd>
+            <dt
+              class="counter-label text-[14px] leading-normal sm:text-[16px] xl:whitespace-nowrap xl:text-[20px]"
+            >
+              In Dev
+            </dt>
+          </div>
+
+          <div
+            data-reveal-stat
+            class="col-span-2 flex flex-col items-center justify-center sm:col-span-1 xl:items-start"
+          >
+            <dd class="flex items-end justify-center">
+              <span
+                class="counter-value text-[34px] leading-[42px] sm:text-[42px] sm:leading-[50px] xl:text-[50px] xl:leading-[60px]"
+                >100</span
+              >
+              <span
+                class="counter-plus w-[26px] text-center text-[26px] leading-[36px] sm:w-[34px] sm:text-[34px] sm:leading-[45px] xl:w-[40px] xl:text-[40px] xl:leading-[54px]"
+                >+</span
+              >
+            </dd>
+            <dt
+              class="counter-label text-[14px] leading-normal sm:text-[16px] xl:whitespace-nowrap xl:text-[20px]"
+            >
+              Team Members
+            </dt>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- SECTION 5 — Everything you need to build, launch, and run     -->
+    <!--            (Figma node 1:2207) — scroll-driven horizontal      -->
+    <!-- ============================================================ -->
+    <section id="services" class="services-section" data-services>
+      <div class="services-inner mx-auto w-full max-w-[1280px] px-6 xl:px-0">
+        <!-- Title block -->
+        <div data-reveal-block class="services-head w-full">
+          <h2 class="services-title">
+            Everything you need to build, launch, and run software<span
+              class="services-title-period"
+              >.</span
+            >
+          </h2>
+          <p class="services-subtitle">
+            Four core services, backed by the full engineering lifecycle — from
+            first line of code to round-the-clock support.
+          </p>
+        </div>
+
+        <!-- Horizontal track: advances left-to-right as the page scrolls -->
+        <div
+          class="services-track"
+          data-services-track
+          tabindex="0"
+          role="region"
+          aria-label="Services, scroll horizontally"
+        >
+          <article
+            class="service-panel"
+            data-services-panel
+            aria-label="Product Development"
+          >
+            <div class="service-num-row" aria-hidden="true">
+              <span class="service-num">01</span
+              ><span class="service-num-dot">.</span>
+            </div>
+            <h3 class="service-title">Product Development</h3>
+            <p class="service-desc">
+              We build fast, secure, and scalable websites tailored to your
+              business goals. From responsive landing pages to complex web
+              applications, every project is crafted for performance,
+              accessibility, and long-term growth.
+            </p>
+          </article>
+
+          <article
+            class="service-panel"
+            data-services-panel
+            aria-label="Web Design &amp; Development"
+          >
+            <div class="service-num-row" aria-hidden="true">
+              <span class="service-num">02</span
+              ><span class="service-num-dot">.</span>
+            </div>
+            <h3 class="service-title">Web Design &amp; Development</h3>
+            <p class="service-desc">
+              Native and cross-platform mobile apps designed to deliver seamless
+              user experiences. We handle the full lifecycle — from architecture
+              and prototyping to deployment and ongoing support — so your app
+              stays reliable at any scale.
+            </p>
+          </article>
+
+          <article
+            class="service-panel"
+            data-services-panel
+            aria-label="CRM system"
+          >
+            <div class="service-num-row" aria-hidden="true">
+              <span class="service-num">03</span
+              ><span class="service-num-dot">.</span>
+            </div>
+            <h3 class="service-title">CRM system</h3>
+            <p class="service-desc">
+              Off-the-shelf solutions rarely fit the way you actually work. We
+              design and build custom CRM systems around your unique workflows,
+              internal processes, and data — giving your team a tool that
+              accelerates operations instead of slowing them down.
+            </p>
+          </article>
+
+          <article
+            class="service-panel"
+            data-services-panel
+            aria-label="E-commerce Development"
+          >
+            <div class="service-num-row" aria-hidden="true">
+              <span class="service-num">04</span
+              ><span class="service-num-dot">.</span>
+            </div>
+            <h3 class="service-title">E-commerce<br />Development</h3>
+            <p class="service-desc">
+              High-converting online stores built for speed and trust. We
+              develop custom e-commerce platforms with intuitive product
+              management, secure checkout flows, and integrations that turn
+              browsers into loyal, returning customers.
+            </p>
+          </article>
+
+          <article
+            class="service-panel"
+            data-services-panel
+            aria-label="Branding and design"
+          >
+            <div class="service-num-row" aria-hidden="true">
+              <span class="service-num">05</span
+              ><span class="service-num-dot">.</span>
+            </div>
+            <h3 class="service-title">Branding and design</h3>
+            <p class="service-desc">
+              Your brand is more than a logo — it is the entire experience
+              people have with your company. We craft cohesive visual
+              identities, design systems, and marketing assets that communicate
+              your values and set you apart in a crowded market.
+            </p>
+          </article>
+
+          <article
+            class="service-panel"
+            data-services-panel
+            aria-label="AI-driven Experiences"
+          >
+            <div class="service-num-row" aria-hidden="true">
+              <span class="service-num">06</span
+              ><span class="service-num-dot">.</span>
+            </div>
+            <h3 class="service-title">AI-driven Experiences</h3>
+            <p class="service-desc">
+              Assistants, retrieval and AI-driven features, designed and built
+              as product rather than bolted on as a chat bubble. The hard part
+              is not calling a model — it is the experience around it: what it
+              may do, how it fails, and why anyone would trust it twice.
+            </p>
+          </article>
+        </div>
+      </div>
+
+      <!-- Pagination — one dash per service, click to jump -->
+      <div class="services-dots-wrap mx-auto w-full max-w-[1360px] px-6">
+        <div class="services-dots" aria-label="Service pagination">
+          <button
+            type="button"
+            class="services-dot"
+            data-services-dot="0"
+            aria-current="true"
+            aria-label="Show service 1: Product Development"
+          >
+            <span></span>
+          </button>
+
+          <button
+            type="button"
+            class="services-dot"
+            data-services-dot="1"
+            aria-current="false"
+            aria-label="Show service 2: Web Design &amp; Development"
+          >
+            <span></span>
+          </button>
+
+          <button
+            type="button"
+            class="services-dot"
+            data-services-dot="2"
+            aria-current="false"
+            aria-label="Show service 3: CRM system"
+          >
+            <span></span>
+          </button>
+
+          <button
+            type="button"
+            class="services-dot"
+            data-services-dot="3"
+            aria-current="false"
+            aria-label="Show service 4: E-commerce Development"
+          >
+            <span></span>
+          </button>
+
+          <button
+            type="button"
+            class="services-dot"
+            data-services-dot="4"
+            aria-current="false"
+            aria-label="Show service 5: Branding and design"
+          >
+            <span></span>
+          </button>
+
+          <button
+            type="button"
+            class="services-dot"
+            data-services-dot="5"
+            aria-current="false"
+            aria-label="Show service 6: AI-driven Experiences"
+          >
+            <span></span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- SECTION 6 — Client care commitments (Figma node 1:2260)       -->
+    <!-- ============================================================ -->
+    <section id="care" class="care-section">
+      <div class="care-inner px-6 xl:px-0">
+
+        <div class="care-left">
+          <div data-reveal-block class="care-head">
+            <h2 class="care-title">
+              Our client care commitments<span class="care-title-period">.</span>
+            </h2>
+            <p class="care-subtitle">
+              Clear scope, clear pricing, clear exit. Every model comes with named team members and a single point of accountability.
+            </p>
+          </div>
+
+          <div class="care-cards">
+            <div class="care-row care-row--1">
+              <article data-reveal-card class="care-card">
+                <div class="care-card-head">
+                  <span class="care-icon">
+                    <img src="./assets/care/icons/dedicated-team.svg" alt="" width="40" height="40" />
+                  </span>
+                  <h3 class="care-card-title">Dedicated Team</h3>
+                </div>
+                <p class="care-card-desc">Tiered plans that keep your systems healthy and secure.</p>
+              </article>
+
+              <article data-reveal-card class="care-card">
+                <div class="care-card-head">
+                  <span class="care-icon">
+                    <img src="./assets/care/icons/single-contact.svg" alt="" width="40" height="40" />
+                  </span>
+                  <h3 class="care-card-title">Single Point of Contact</h3>
+                </div>
+                <p class="care-card-desc">One accountable lead who knows your project inside and out</p>
+              </article>
+            </div>
+
+            <div class="care-row care-row--2">
+              <article data-reveal-card class="care-card">
+                <div class="care-card-head">
+                  <span class="care-icon">
+                    <img src="./assets/care/icons/clear-scope.svg" alt="" width="56" height="56" />
+                  </span>
+                  <h3 class="care-card-title">Clear Scope</h3>
+                </div>
+                <p class="care-card-desc">Defined deliverables, milestones, and expectations from day one</p>
+              </article>
+
+              <article data-reveal-card class="care-card">
+                <img
+                  src="./assets/care/card-accent.svg"
+                  alt=""
+                  aria-hidden="true"
+                  width="172"
+                  height="157"
+                  class="care-card-accent hidden xl:block"
+                />
+                <div class="care-card-head">
+                  <span class="care-icon">
+                    <img src="./assets/care/icons/clean-exit.svg" alt="" width="56" height="56" />
+                  </span>
+                  <h3 class="care-card-title">Clean Exit</h3>
+                </div>
+                <p class="care-card-desc">Your code, your data, full ownership, easy handoff anytime</p>
+              </article>
+            </div>
+          </div>
+        </div>
+
+        <img
+          src="./assets/care/tree.svg"
+          alt=""
+          aria-hidden="true"
+          width="715"
+          height="763"
+          loading="lazy"
+          class="care-tree"
+        />
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- SECTION 7 — Testimonial slider (Figma node 1:2788)            -->
+    <!-- ============================================================ -->
+    <section class="testi-section" aria-label="Client testimonials">
+      <div class="testi-inner px-6 xl:px-0">
+        <div data-reveal-block class="testi-head">
+          <img
+            src="./assets/testimonial/quote-mark.png"
+            alt=""
+            aria-hidden="true"
+            width="180"
+            height="180"
+            class="testi-quote-mark"
+          />
+          <h2 class="testi-title">Don't just take our word for it</h2>
+        </div>
+
+        <div data-reveal-block class="testi-card">
+          <div class="swiper testi-swiper" data-testi-swiper>
+            <div class="swiper-wrapper">
+              <!-- Slide 1 — the testimonial in the Figma file -->
+              <figure class="swiper-slide testi-slide">
+                <blockquote class="testi-quote">
+                  "Working with <strong>Santo Tech Labs</strong> was a great experience from start to finish. They really understood what we were trying to achieve and helped turn our ideas into something that felt polished, modern, and true to our brand."
+                </blockquote>
+                <figcaption class="testi-person">
+                  <img
+                    src="./assets/testimonial/avatar-marcus.png"
+                    alt=""
+                    width="63"
+                    height="63"
+                    class="testi-avatar"
+                    loading="lazy"
+                  />
+                  <span class="testi-person-text">
+                    <span class="testi-name">Marcus Thorne</span>
+                    <span class="testi-role">VP of Infrastructure, Cambridge Logistics</span>
+                  </span>
+                </figcaption>
+              </figure>
+
+              <!-- PLACEHOLDER SLIDES — replace copy, names and avatars with -->
+              <!-- real testimonials before this goes live.                  -->
+              <figure class="swiper-slide testi-slide">
+                <blockquote class="testi-quote">
+                  "Placeholder testimonial — replace this quote with a real client's words. Keeping it to roughly three lines matches the Figma layout and keeps every slide the same height."
+                </blockquote>
+                <figcaption class="testi-person">
+                  <img
+                    src="./assets/images/avatar-2.png"
+                    alt=""
+                    width="63"
+                    height="63"
+                    class="testi-avatar"
+                    loading="lazy"
+                  />
+                  <span class="testi-person-text">
+                    <span class="testi-name">Client name</span>
+                    <span class="testi-role">Role, Company</span>
+                  </span>
+                </figcaption>
+              </figure>
+
+              <figure class="swiper-slide testi-slide">
+                <blockquote class="testi-quote">
+                  "Placeholder testimonial — replace this quote with a real client's words. Keeping it to roughly three lines matches the Figma layout and keeps every slide the same height."
+                </blockquote>
+                <figcaption class="testi-person">
+                  <img
+                    src="./assets/images/avatar-3.png"
+                    alt=""
+                    width="63"
+                    height="63"
+                    class="testi-avatar"
+                    loading="lazy"
+                  />
+                  <span class="testi-person-text">
+                    <span class="testi-name">Client name</span>
+                    <span class="testi-role">Role, Company</span>
+                  </span>
+                </figcaption>
+              </figure>
+            </div>
+          </div>
+
+          <div class="testi-rule-row">
+            <button type="button" class="testi-nav testi-nav--prev" data-testi-prev aria-label="Previous testimonial">
+              <img src="./assets/testimonial/chevron.svg" alt="" width="9" height="15" />
+            </button>
+            <span class="testi-rule" aria-hidden="true"></span>
+            <button type="button" class="testi-nav testi-nav--next" data-testi-next aria-label="Next testimonial">
+              <img src="./assets/testimonial/chevron.svg" alt="" width="9" height="15" />
+            </button>
+          </div>
+
+          <!-- Same controls, in flow, for narrow screens -->
+          <div class="testi-nav-mobile">
+            <button type="button" class="testi-nav" data-testi-prev aria-label="Previous testimonial">
+              <img src="./assets/testimonial/chevron.svg" alt="" width="9" height="15" style="transform: rotate(180deg)" />
+            </button>
+            <button type="button" class="testi-nav" data-testi-next aria-label="Next testimonial">
+              <img src="./assets/testimonial/chevron.svg" alt="" width="9" height="15" />
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <img
+        src="./assets/testimonial/network.svg"
+        alt=""
+        aria-hidden="true"
+        width="1640"
+        height="670"
+        loading="lazy"
+        class="testi-network"
+      />
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- SECTION 8 — Want to team up with us? (Figma node 1:3441)      -->
+    <!-- ============================================================ -->
+    <section id="contact" class="cta-section">
+      <img
+        src="./assets/cta/artwork.jpg"
+        alt=""
+        aria-hidden="true"
+        width="1538"
+        height="618"
+        loading="lazy"
+        class="cta-artwork"
+      />
+
+      <div class="cta-inner px-6">
+        <h2 data-reveal-block class="cta-title">Want to team up with us?</h2>
+
+        <ul data-reveal-block class="cta-pill" aria-label="Technologies we work with">
+          <li class="cta-tag">React</li>
+          <li class="cta-tag">Angular</li>
+          <li class="cta-tag">Figma</li>
+          <li class="cta-tag">Adobe</li>
+          <li class="cta-tag">Next.js</li>
+          <li class="cta-tag">Tailwind CSS</li>
+        </ul>
+
+        <p data-reveal-block class="cta-body">
+          Send a short brief — scope, timeline, and what success looks like. You'll get a response within one business day and an honest view of effort, cost, and risk. No obligation, no sales sequence.
+        </p>
+
+        <a
+          data-reveal-block
+          href="mailto:hello@santotechlabs.com"
+          class="hero-cta-primary cta-button"
+        >
+          Start a Project
+          <img src="./assets/icons/arrow-right-primary.svg" alt="" width="20" height="20" />
+        </a>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- FOOTER (Figma node 1:4673)                                    -->
+    <!-- ============================================================ -->
+    <footer id="footer" class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-top">
+          <div class="footer-brand">
+            <a href="#main" class="footer-lockup" aria-label="Santo Tech Labs home">
+              <span class="footer-lockup-top">
+                <img
+                  src="./assets/footer/logo-mark.svg"
+                  alt=""
+                  aria-hidden="true"
+                  width="188"
+                  height="56"
+                  class="footer-logo-mark"
+                />
+                <span class="footer-wordmark">Tech labs</span>
+              </span>
+              <span class="footer-tagline">Global Technology Services</span>
+            </a>
+            <p class="footer-description">
+              Web development, app development, custom software, and AI-enabled IT services for organizations building at global scale.
+            </p>
+          </div>
+
+          <div class="footer-columns">
+            <nav class="footer-column" aria-label="Services">
+              <h2 class="footer-column-title">Services</h2>
+              <ul class="footer-links">
+                <li><a href="#services">Web Development</a></li>
+                <li><a href="#services">App Development</a></li>
+                <li><a href="#services">Software Support</a></li>
+                <li><a href="#services">AI-Enabled IT</a></li>
+                <li><a href="#services">Custom Software</a></li>
+              </ul>
+            </nav>
+
+            <nav class="footer-column" aria-label="Company">
+              <h2 class="footer-column-title">Company</h2>
+              <ul class="footer-links">
+                <li><a href="#partner">Client services</a></li>
+                <li><a href="#model">Engagement models</a></li>
+                <li><a href="#care">How we work</a></li>
+                <li><a href="#model">Global delivery</a></li>
+              </ul>
+            </nav>
+
+            <nav class="footer-column" aria-label="Contact">
+              <h2 class="footer-column-title">Contact</h2>
+              <ul class="footer-links">
+                <li><a href="#contact">Send a project brief</a></li>
+                <li><a href="#contact">Book a consultation</a></li>
+                <li><a href="#contact">Request a proposal</a></li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <p class="footer-copyright">© 2026 Santo Tech Labs. All rights reserved.</p>
+          <a
+            href="https://santotechlabs.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="footer-site-link"
+            >santotechlabs.com</a
+          >
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,1687 @@
+/* SantoTech Labs — Tailwind CSS v4 entry point. */
+
+@import "tailwindcss";
+
+@theme {
+  --font-sora: "Sora", ui-sans-serif, system-ui, sans-serif;
+  --font-nunito: "Nunito", ui-sans-serif, system-ui, sans-serif;
+
+  /* Palette from Figma dev mode. */
+  --color-hero-bg: #02091a;
+  --color-hero-cyan: #20ecff;
+  --color-hero-muted: #8fa0dd;
+  --color-hero-border: #1e2f4c;
+  --color-hero-badge: #10182c;
+
+  --color-lav-50: #f5f2ff;
+  --color-lav-100: #ece5ff;
+  --color-lav-200: #d8ccff;
+  --color-brand-400: #a78bfa;
+  --color-brand-500: #8b5cf6;
+  --color-brand-600: #7c3aed;
+  --color-brand-700: #6d28d9;
+
+  --color-ink-800: #14093f;
+  --color-ink-700: #1c1149;
+  --color-ink-600: #261a59;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Lenis owns the scroll position once it is running, and native smooth
+     scrolling fights its rAF loop. The rule above stays as the no-JS and
+     reduced-motion fallback; Lenis adds `.lenis` to <html> when it starts. */
+  html.lenis {
+    scroll-behavior: auto;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  html,
+  body {
+    overflow-x: clip;
+  }
+
+  body {
+    @apply bg-hero-bg text-white antialiased;
+    font-family: var(--font-sora);
+  }
+
+  :where(a, button, input, select, textarea, [tabindex]):focus-visible {
+    @apply outline-2 outline-offset-2;
+    outline-color: var(--color-brand-500);
+  }
+}
+
+@layer components {
+  /* Hero-specific ------------------------------------------------------ */
+  .hero-gradient-text {
+    background-image: linear-gradient(
+      180deg,
+      rgb(23, 77, 255) 0%,
+      rgb(25, 156, 208) 18.75%,
+      rgb(162, 70, 255) 55.769%,
+      rgb(86, 199, 255) 74.038%,
+      rgb(81, 109, 218) 88.462%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Buttons: hover ---------------------------------------------------- */
+  /*  Every control eases on the same 0.25s curve and reacts only through
+      colour, shadow and a small lift — nothing here changes layout, so a
+      hover can never reflow the page. `:active` snaps back fast so a click
+      still feels immediate. Reduced motion flattens all of it through the
+      global transition-duration override in @layer base. */
+  .hero-cta-primary {
+    background-image: linear-gradient(
+      103.315deg,
+      rgb(113, 21, 198) 3.392%,
+      rgb(45, 22, 176) 54.661%,
+      rgb(0, 64, 137) 96.608%
+    );
+    box-shadow:
+      0 0 18px 0 rgba(157, 72, 236, 0.4),
+      0 18px 40px 0 rgba(0, 0, 0, 0.5);
+    transition:
+      transform 0.25s ease,
+      box-shadow 0.25s ease;
+  }
+  .hero-cta-primary:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0 0 28px 0 rgba(157, 72, 236, 0.65),
+      0 24px 48px 0 rgba(0, 0, 0, 0.55);
+  }
+  .hero-cta-primary:active {
+    transform: translateY(0);
+    transition-duration: 0.08s;
+  }
+
+  /* Outlined twin of the primary CTA. No gradient to brighten, so the
+     border and a faint fill carry the hover instead. */
+  .hero-cta-secondary {
+    transition:
+      transform 0.25s ease,
+      border-color 0.25s ease,
+      background-color 0.25s ease;
+  }
+  .hero-cta-secondary:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.38);
+    background-color: rgba(255, 255, 255, 0.06);
+  }
+  .hero-cta-secondary:active {
+    transform: translateY(0);
+    transition-duration: 0.08s;
+  }
+
+  /* Bare icon controls in the header. These use the `scale` property, not
+     `transform`, so the hover composes with whatever GSAP writes to
+     `transform` on the header rather than fighting it. */
+  .header-icon-btn {
+    transition:
+      color 0.2s ease,
+      scale 0.2s ease;
+  }
+  .header-icon-btn:hover {
+    scale: 1.12;
+  }
+  .header-icon-btn:active {
+    scale: 0.95;
+    transition-duration: 0.08s;
+  }
+
+  .hero-h1-shadow {
+    text-shadow: 0 4px 6px rgba(0, 0, 0, 0.67);
+  }
+
+  /* Logo -------------------------------------------------------------- */
+  .logo-wordmark {
+    background-image: linear-gradient(
+      90deg,
+      #7cc6ff 0%,
+      #a066ff 50%,
+      #ff6bb5 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Section backgrounds ---------------------------------------------- */
+  .starfield {
+    background-image:
+      radial-gradient(
+        1px 1px at 12% 22%,
+        rgba(255, 255, 255, 0.55),
+        transparent 60%
+      ),
+      radial-gradient(
+        1px 1px at 78% 18%,
+        rgba(167, 139, 250, 0.55),
+        transparent 60%
+      ),
+      radial-gradient(
+        1.5px 1.5px at 34% 68%,
+        rgba(255, 255, 255, 0.35),
+        transparent 60%
+      ),
+      radial-gradient(
+        1px 1px at 62% 82%,
+        rgba(139, 92, 246, 0.45),
+        transparent 60%
+      ),
+      radial-gradient(
+        1px 1px at 88% 55%,
+        rgba(255, 255, 255, 0.35),
+        transparent 60%
+      ),
+      radial-gradient(
+        1px 1px at 8% 78%,
+        rgba(255, 255, 255, 0.35),
+        transparent 60%
+      ),
+      radial-gradient(
+        1px 1px at 46% 8%,
+        rgba(255, 255, 255, 0.4),
+        transparent 60%
+      ),
+      radial-gradient(
+        1.5px 1.5px at 92% 88%,
+        rgba(167, 139, 250, 0.55),
+        transparent 60%
+      );
+  }
+
+  .light-section {
+    background: linear-gradient(180deg, #f5f2ff 0%, #ece5ff 100%);
+  }
+
+  .dark-section {
+    background: linear-gradient(180deg, #02091a 0%, #0a0d2c 60%, #02091a 100%);
+  }
+
+  /* Cards ------------------------------------------------------------- */
+  .card-light {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 28px;
+    box-shadow: 0 20px 40px -20px rgba(20, 9, 63, 0.1);
+    border: 1px solid rgba(20, 9, 63, 0.06);
+  }
+
+  .card-dark {
+    background: linear-gradient(180deg, #12183a 0%, #0d1230 100%);
+    border-radius: 20px;
+    padding: 28px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .icon-tile-light {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: #ece5ff;
+    color: #7c3aed;
+  }
+
+  .icon-tile-dark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.06);
+    color: #a78bfa;
+  }
+
+  /* Header ------------------------------------------------------------ */
+  /*  Two states, both switched by `data-docked` on the header:
+      - default: an absolutely-positioned pill that scrolls away with the hero
+      - docked:  past the hero's midpoint it slides back down as a fixed,
+                 compact bar with a smaller logo and tighter padding
+      Layout properties live here rather than as utilities in the markup
+      because Tailwind's utilities layer outranks components, so a docked
+      rule in this file could never override `absolute` / `top-6` / `px-4`. */
+  .site-header {
+    position: absolute;
+    /* Centred with insets rather than a transform. GSAP animates this header
+       on load and folds any `translate` it finds into its own inline
+       `transform`, so a translate-based centring gets applied twice the
+       moment the dock animation writes `translate` as well. Insets leave
+       both transform properties free: GSAP owns `transform`, the dock
+       animation below owns `translate`. */
+    left: 2.5%;
+    right: 2.5%;
+    top: 1.5rem;
+    padding: 0.75rem 1rem;
+    background: rgba(6, 12, 34, 0.55);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 30px;
+    box-shadow: 0 10px 40px -20px rgba(0, 0, 0, 0.6);
+    transition:
+      background 0.3s ease,
+      padding 0.3s ease,
+      border-radius 0.3s ease,
+      box-shadow 0.3s ease;
+  }
+
+  .site-logo {
+    height: 66px; /* the SVG's intrinsic height, pinned so it can shrink */
+    width: auto;
+    transition: height 0.3s ease;
+  }
+
+  /* Replaces the inline background the scroll handler used to write, so the
+     docked rules are not fighting an inline style for the same property. */
+  .site-header[data-scrolled="true"] {
+    background: rgba(6, 12, 34, 0.85);
+  }
+
+  /* Matches [data-docked] in both the "true" and "leaving" states, so the
+     compact look holds while it slides back out. */
+  .site-header[data-docked] {
+    position: fixed;
+    top: 0.75rem;
+    padding: 0.5rem 1rem;
+    border-radius: 24px;
+    background: rgba(6, 12, 34, 0.92);
+    box-shadow: 0 18px 50px -24px rgba(0, 0, 0, 0.85);
+  }
+
+  .site-header[data-docked] .site-logo {
+    height: 48px;
+  }
+
+  .site-header[data-docked="true"] {
+    animation: header-dock-in 0.45s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+  }
+  .site-header[data-docked="leaving"] {
+    animation: header-dock-out 0.28s ease-in both;
+    pointer-events: none;
+  }
+
+  /* Travels a little past its own height so the drop shadow clears too. */
+  @keyframes header-dock-in {
+    from {
+      translate: 0 calc(-100% - 1.5rem);
+      opacity: 0;
+    }
+    to {
+      translate: 0 0;
+      opacity: 1;
+    }
+  }
+  @keyframes header-dock-out {
+    from {
+      translate: 0 0;
+      opacity: 1;
+    }
+    to {
+      translate: 0 calc(-100% - 1.5rem);
+      opacity: 0;
+    }
+  }
+
+  /* The mobile panel hangs off the header, so it has to follow it into
+     fixed positioning — JS publishes the docked height as --stl-header-h. */
+  .mobile-nav-panel {
+    position: absolute;
+    left: 1rem;
+    right: 1rem;
+    top: 6rem;
+    z-index: 30;
+    max-width: 1280px;
+    margin-inline: auto; /* keeps it centred once max-width clamps the insets */
+  }
+  .mobile-nav-panel a {
+    transition: color 0.2s ease;
+  }
+  .site-header[data-docked] ~ .mobile-nav-panel {
+    position: fixed;
+    top: calc(0.75rem + var(--stl-header-h, 60px) + 0.5rem);
+  }
+
+  @media (min-width: 40rem) {
+    .site-header {
+      top: 2rem;
+      padding: 1rem 3rem;
+    }
+    .site-header[data-docked] {
+      padding: 0.625rem 2rem;
+    }
+  }
+
+  .nav-link {
+    color: rgba(255, 255, 255, 0.7);
+    transition: color 0.2s ease;
+  }
+  .nav-link:hover {
+    color: #ffffff;
+  }
+  .nav-link[aria-current="page"] {
+    background-image: linear-gradient(90deg, #a066ff 0%, #ff6bb5 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Chips ------------------------------------------------------------- */
+  .tech-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: rgba(124, 58, 237, 0.12);
+    border: 1px solid rgba(167, 139, 250, 0.35);
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .tech-chip::before {
+    content: "";
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    border-radius: 999px;
+    background: #a78bfa;
+  }
+
+  /* Section titles --------------------------------------------------- */
+  .light-title-accent {
+    background-image: linear-gradient(90deg, #7c3aed 0%, #6d28d9 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* ============================================================ */
+  /* Partner section — pixel-perfect from Figma node 1:1918        */
+  /* ============================================================ */
+  .partner-section {
+    background: linear-gradient(
+      126.573deg,
+      rgb(251, 251, 255) 4.858%,
+      rgb(220, 233, 255) 94.836%
+    );
+    box-shadow: inset 0 4px 54px 0 rgba(92, 149, 239, 0.55);
+  }
+
+  .partner-title {
+    font-family: "Sora", sans-serif;
+    font-weight: 800;
+    background-image: url("../assets/partner/title-gradient.png");
+    background-size: cover;
+    background-position: center;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .partner-title-period {
+    color: #1d2039;
+    -webkit-text-fill-color: #1d2039;
+  }
+  .partner-subtitle {
+    font-family: "Sora", sans-serif;
+    font-weight: 200;
+    color: #1d2039;
+  }
+
+  .partner-card {
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 36px;
+    filter: drop-shadow(0 6px 2.5px rgba(171, 174, 198, 0.31));
+  }
+
+  .partner-card-title {
+    font-family: "Sora", sans-serif;
+    font-weight: 700;
+    color: #1d2039;
+  }
+
+  .partner-card-desc {
+    font-family: "Nunito", sans-serif;
+    font-weight: 400;
+    color: #1d2039;
+  }
+
+  .partner-bullet-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .partner-bullet-text {
+    font-family: "Nunito", sans-serif;
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 26px;
+    color: #1d2039;
+  }
+
+  /* ============================================================ */
+  /* Distributed model section — pixel-perfect from node 1:1984    */
+  /* ============================================================ */
+  .distributed-section {
+    background: #020523;
+    position: relative;
+    overflow: hidden;
+  }
+  .distributed-bg {
+    position: absolute;
+    top: 41.4%;
+    left: -0.01%;
+    width: 104.2%;
+    height: 58.63%;
+    background: url("../assets/distributed/bg-network.png") no-repeat center /
+      cover;
+    opacity: 0.46;
+    pointer-events: none;
+  }
+
+  .distributed-card {
+    background: linear-gradient(
+      139.468deg,
+      rgba(41, 4, 68, 0.74) 2.9271%,
+      rgba(0, 24, 92, 0.244) 89.805%
+    );
+    border-radius: 20px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .distributed-title {
+    font-family: "Sora", sans-serif;
+    font-weight: 800;
+    color: #ffffff;
+    text-shadow: 0 4px 6px rgba(0, 0, 0, 0.67);
+  }
+  .distributed-title-period {
+    color: #7e5ef9;
+  }
+
+  .distributed-subtitle {
+    font-family: "Sora", sans-serif;
+    font-weight: 100;
+    color: transparent;
+    background-image: url("../assets/distributed/subtitle-gradient.png");
+    background-size: cover;
+    background-position: center;
+    -webkit-background-clip: text;
+    background-clip: text;
+    text-shadow: 0 4px 6px rgba(0, 0, 0, 0.67);
+  }
+
+  .step-number {
+    font-family: "Sora", sans-serif;
+    font-weight: 800;
+    font-size: 48px;
+    line-height: 1;
+    color: #4a395f;
+    opacity: 0.6;
+    transition:
+      color 0.5s ease,
+      opacity 0.5s ease,
+      text-shadow 0.5s ease;
+  }
+  .step[data-active="true"] .step-number {
+    color: #e023f9;
+    opacity: 1;
+    text-shadow: 0 0 24px rgba(224, 35, 249, 0.55);
+  }
+
+  .step-title {
+    font-family: "Sora", sans-serif;
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 1.1;
+    color: #ffffff;
+    text-transform: capitalize;
+  }
+
+  .step-desc {
+    font-family: "Nunito", sans-serif;
+    font-weight: 300;
+    font-size: 20px;
+    line-height: 1.5;
+    color: #d3daee;
+  }
+
+  /* Vertical scroll timeline */
+  .timeline {
+    position: relative;
+    width: 32px;
+    flex-shrink: 0;
+    align-self: stretch;
+  }
+  .timeline-track {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 2px;
+  }
+  .timeline-fill {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: 2px;
+    height: 0%;
+    transform: translateX(-50%);
+    background: linear-gradient(180deg, #e023f9 0%, #7e5ef9 100%);
+    box-shadow: 0 0 12px rgba(224, 35, 249, 0.55);
+    border-radius: 2px;
+    will-change: height;
+  }
+  .timeline-dot {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translate(-50%, -50%);
+    width: 14px;
+    height: 14px;
+    border-radius: 999px;
+    background: #1a0f30;
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    transition:
+      background 0.4s ease,
+      border-color 0.4s ease,
+      box-shadow 0.4s ease,
+      transform 0.4s ease;
+  }
+  .timeline-dot[data-active="true"] {
+    background: #e023f9;
+    border-color: #e023f9;
+    box-shadow: 0 0 22px rgba(224, 35, 249, 0.7);
+    transform: translate(-50%, -50%) scale(1.15);
+  }
+
+  /* ============================================================ */
+  /* Counter section — pixel-perfect from Figma node 1:2200        */
+  /*   Frame 1640x245 · bg #fdfeff · px-140 py-60                   */
+  /* ============================================================ */
+  .counter-section {
+    background: #fdfeff;
+    position: relative;
+    overflow: hidden;
+  }
+  .counter-bg {
+    position: absolute;
+    inset: 0;
+    background: url("../assets/counter/bg-counter.png") no-repeat center / cover;
+    opacity: 0.06;
+    pointer-events: none;
+  }
+  /* At the Figma frame aspect (1640x245) reproduce its exact image crop. */
+  @media (min-width: 1280px) {
+    .counter-bg {
+      inset: auto;
+      top: -244.49%;
+      left: -0.41%;
+      width: 104.77%;
+      height: 347.04%;
+      background-size: 100% 100%;
+    }
+  }
+  .counter-row {
+    backdrop-filter: blur(17px);
+    -webkit-backdrop-filter: blur(17px);
+  }
+  .counter-value {
+    font-family: "Sora", sans-serif;
+    font-weight: 700;
+    color: #2265f4;
+  }
+  .counter-plus {
+    font-family: "Sora", sans-serif;
+    font-weight: 700;
+    color: #000408;
+  }
+  .counter-label {
+    font-family: "Sora", sans-serif;
+    font-weight: 400;
+    color: #000408;
+  }
+
+  /* ============================================================ */
+  /* Services section — pixel-perfect from Figma node 1:2207       */
+  /*   Frame 1640x1168 · 6 panels x 960 · horizontal scroll        */
+  /*   Vertical metrics are vh fractions of the 1168 frame, capped */
+  /*   at the Figma value, so a >=1168px viewport is exact and     */
+  /*   shorter ones scale down and still fit one screen.           */
+  /* ============================================================ */
+  .services-section {
+    /* Below the pinned breakpoint the section scrolls normally, so type is
+       sized against width like any other section. */
+    --svc-pad-y: 56px;
+    --svc-h2: clamp(26px, 6.2vw, 40px);
+    --svc-sub: clamp(15px, 3.6vw, 20px);
+    --svc-gap: 32px;
+    --svc-track-py: 24px;
+    --svc-panel-py: 20px;
+    --svc-num: clamp(64px, 17vw, 96px);
+    --svc-title: clamp(26px, 6.4vw, 40px);
+    --svc-desc: clamp(14px, 3.6vw, 17px);
+    --svc-gap-title: 14px;
+    --svc-gap-panel: 12px;
+    --svc-dots-mt: 8px;
+    --svc-dots-h: 24px;
+
+    position: relative;
+    overflow: hidden;
+    padding-block: var(--svc-pad-y);
+    background:
+      linear-gradient(
+        -54.756733deg,
+        rgba(46, 28, 105, 0.53) 1.4114%,
+        rgba(13, 8, 51, 0.53) 64.465%,
+        rgba(62, 22, 96, 0.53) 86.959%,
+        rgba(22, 10, 82, 0.53) 98.589%
+      ),
+      #05001b;
+  }
+
+  .services-inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--svc-gap);
+  }
+  .services-head {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--svc-gap-title);
+  }
+  .services-dots-wrap {
+    margin-top: var(--svc-dots-mt);
+  }
+
+  .services-title {
+    font-family: "Sora", sans-serif;
+    font-weight: 800;
+    font-size: var(--svc-h2);
+    line-height: 1.0833;
+    color: #ffffff;
+    text-shadow: 0 4px 6px rgba(0, 0, 0, 0.67);
+  }
+  .services-title-period {
+    color: #7e5ef9;
+  }
+
+  .services-subtitle {
+    font-family: "Sora", sans-serif;
+    font-weight: 100;
+    font-size: var(--svc-sub);
+    line-height: normal;
+    color: transparent;
+    background-image: url("../assets/services/subtitle-gradient.png");
+    background-size: cover;
+    background-position: center;
+    -webkit-background-clip: text;
+    background-clip: text;
+    text-shadow: 0 4px 6px rgba(0, 0, 0, 0.67);
+  }
+
+  /* Horizontal track ------------------------------------------------- */
+  .services-track {
+    display: flex;
+    align-items: stretch;
+    gap: 24px;
+    width: 100%;
+    padding-block: var(--svc-track-py);
+    overflow-x: auto;
+    overflow-y: clip;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    overscroll-behavior-x: contain;
+  }
+  .services-track::-webkit-scrollbar {
+    display: none;
+  }
+  /* While the section drives scrollLeft from the pin, snapping would
+     fight the programmatic scroll — JS flips this flag. */
+  .services-track[data-pinned="true"] {
+    scroll-snap-type: none;
+  }
+
+  .service-panel {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--svc-gap-panel);
+    align-items: flex-start;
+    align-self: stretch;
+    width: min(86vw, 560px);
+    padding-block: var(--svc-panel-py);
+    padding-right: 32px;
+    border-right: 1px solid #2d2a5b;
+    scroll-snap-align: start;
+  }
+
+  .service-num-row {
+    display: flex;
+    align-items: center;
+  }
+  .service-num {
+    font-family: "Sora", sans-serif;
+    font-weight: 800;
+    font-size: var(--svc-num);
+    line-height: normal;
+    color: rgba(99, 87, 131, 0.25);
+    white-space: nowrap;
+  }
+  .service-num-dot {
+    font-family: "Sora", sans-serif;
+    font-weight: 800;
+    font-size: var(--svc-num);
+    line-height: normal;
+    color: #7e5ef9;
+    white-space: nowrap;
+  }
+
+  .service-title {
+    font-family: "Sora", sans-serif;
+    font-weight: 800;
+    font-size: var(--svc-title);
+    line-height: 1.0923;
+    color: #ffffff;
+    text-transform: uppercase;
+    text-shadow: 0 4px 6px rgba(0, 0, 0, 0.67);
+  }
+
+  .service-desc {
+    font-family: "Nunito", sans-serif;
+    font-weight: 200;
+    font-size: var(--svc-desc);
+    line-height: normal;
+    color: #8d84b8;
+  }
+
+  /* Pagination dashes ------------------------------------------------- */
+  .services-dots {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+    height: var(--svc-dots-h);
+    width: 100%;
+  }
+  .services-dot {
+    flex: 0 0 auto;
+    width: 30px;
+    padding-block: 14px;
+    background: none;
+    border: 0;
+    cursor: pointer;
+    line-height: 0;
+  }
+  .services-dot > span {
+    display: block;
+    height: 4px;
+    border-radius: 999px;
+    background: rgba(80, 63, 120, 0.38);
+    transition:
+      background-color 0.35s ease,
+      scale 0.25s ease;
+  }
+  .services-dot[aria-current="true"] > span {
+    background: #7e5ef9;
+  }
+  /* Scaled rather than resized: the dash sits in a fixed-height button, so
+     animating `height` would shift the row it lives in. */
+  .services-dot:hover > span {
+    background: rgba(126, 94, 249, 0.65);
+    scale: 1 1.75;
+  }
+  .services-dot[aria-current="true"]:hover > span {
+    background: #7e5ef9;
+  }
+
+  /* From here up the section is pinned and must fit one screen, so every
+     vertical metric becomes a fraction of viewport height — calibrated
+     against the 1168px Figma frame, capped at the Figma value, less 4%
+     headroom for font-metric drift. A viewport tall enough to reach every
+     cap renders the frame at its exact Figma dimensions. */
+  @media (min-width: 1280px) {
+    .services-section {
+      --svc-pad-y: clamp(40px, 8.22vh, 100px);
+      --svc-h2: clamp(28px, 4.92vh, 60px);
+      --svc-sub: clamp(16px, 2.46vh, 30px);
+      --svc-gap: clamp(28px, 4.92vh, 60px);
+      --svc-track-py: clamp(16px, 3.28vh, 40px);
+      --svc-panel-py: clamp(16px, 2.63vh, 32px);
+      --svc-num: clamp(64px, 12.33vh, 150px);
+      --svc-title: clamp(28px, 5.34vh, 65px);
+      --svc-desc: clamp(14px, 1.97vh, 24px);
+      --svc-gap-title: clamp(12px, 1.64vh, 20px);
+      --svc-gap-panel: clamp(10px, 1.32vh, 16px);
+      --svc-dots-mt: clamp(6px, 0.83vh, 10px);
+      --svc-dots-h: clamp(20px, 2.72vh, 33px);
+    }
+
+    .service-panel {
+      width: 960px;
+      padding-inline: 140px;
+    }
+    .service-panel:first-child {
+      padding-inline: 0 140px;
+    }
+  }
+
+  /* ============================================================ */
+  /* Client care section — pixel-perfect from Figma node 1:2260    */
+  /*   Frame 1640x983 · copy + 2x2 cards left (806), low-poly      */
+  /*   tree right (715x763). Background fitted numerically to the  */
+  /*   Figma render — see the gradient note below.                 */
+  /* ============================================================ */
+  .care-section {
+    position: relative;
+    overflow: hidden;
+    padding-block: clamp(56px, 6.1vw, 100px) clamp(64px, 7.3vw, 120px);
+    /* Exact section fill from the node's own SVG export (paint1_linear):
+       userSpace vector (31.95,36.11)->(1554.32,848.11) on the 1640x983
+       frame, converted to a CSS angle and stop percentages. */
+    background: linear-gradient(
+      118.07deg,
+      #250a6e 2.37%,
+      #160743 26.07%,
+      #21054d 56.37%,
+      #12035a 92.72%
+    );
+  }
+
+  .care-inner {
+    position: relative;
+    margin-inline: auto;
+    width: 100%;
+    max-width: 1360px;
+  }
+
+  .care-left {
+    position: relative;
+    z-index: 1; /* Figma paints Hero-Left over the overlapping tree. */
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    align-items: flex-start;
+  }
+
+  .care-head {
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+    align-items: flex-start;
+    text-shadow: 0 4px 6px rgba(0, 0, 0, 0.67);
+  }
+
+  .care-title {
+    font-family: "Sora", sans-serif;
+    font-weight: 800;
+    font-size: clamp(30px, 4.6vw, 60px);
+    line-height: 1.0833;
+    color: #ffffff;
+  }
+  .care-title-period {
+    color: #7e5ef9;
+  }
+
+  .care-subtitle {
+    font-family: "Sora", sans-serif;
+    font-weight: 100;
+    font-size: clamp(17px, 2.3vw, 30px);
+    line-height: normal;
+    color: transparent;
+    background-image: url("../assets/care/supporting-gradient.png");
+    background-size: cover;
+    background-position: center;
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+
+  /* Cards ------------------------------------------------------------- */
+  .care-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+  }
+  .care-row {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .care-card {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+    padding: 30px 36px;
+    border-radius: 6px;
+    /* Row 1 sits at .42 and row 2 at .3 in the Figma file. */
+    background: rgba(39, 96, 221, 0.42);
+  }
+  .care-row--2 .care-card {
+    background: rgba(39, 96, 221, 0.3);
+  }
+
+  .care-card-head {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .care-icon {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+  }
+  .care-row--2 .care-icon {
+    width: 56px;
+    height: 56px;
+  }
+  .care-icon img {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .care-card-title {
+    font-family: "Sora", sans-serif;
+    font-weight: 600;
+    font-size: 17px;
+    line-height: normal;
+    color: #ffffff;
+  }
+
+  .care-card-desc {
+    font-family: "Sora", sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.4;
+    color: #ffffff;
+  }
+
+  /* Decorative shard bleeding out of the last card's top-right corner. */
+  .care-card-accent {
+    position: absolute;
+    left: 278.5px;
+    top: -73.1px;
+    width: 171.5px;
+    height: 157px;
+    pointer-events: none;
+  }
+
+  /* Low-poly tree ----------------------------------------------------- */
+  .care-tree {
+    display: block;
+    width: min(380px, 82vw);
+    height: auto;
+    margin: 40px auto 0;
+    pointer-events: none;
+    /* The artwork's layers are screen-blended against the section fill in
+       Figma. Screening the whole image reproduces that additively and stops
+       the dark polygons painting as an opaque disc. */
+    mix-blend-mode: screen;
+  }
+
+  @media (min-width: 1280px) {
+    .care-inner {
+      min-height: 763px;
+    }
+    .care-left {
+      width: 806px;
+    }
+    .care-row {
+      flex-direction: row;
+      align-items: stretch;
+    }
+    .care-card {
+      height: 200px;
+    }
+    /* Figma pins the first card of each row and lets the second one fill. */
+    .care-row--1 .care-card:first-child {
+      flex: 0 0 318px;
+    }
+    .care-row--2 .care-card:first-child {
+      flex: 0 0 455px;
+    }
+    .care-row .care-card:last-child {
+      flex: 1 1 0;
+      min-width: 0;
+    }
+    .care-tree {
+      position: absolute;
+      left: 689px;
+      top: 0px;
+      width: 715px;
+      height: 763px;
+      margin: 0;
+    }
+  }
+
+  @media (min-width: 640px) and (max-width: 1279px) {
+    .care-row {
+      flex-direction: row;
+      align-items: stretch;
+    }
+    .care-row .care-card {
+      flex: 1 1 0;
+      min-width: 0;
+    }
+  }
+
+  /* ============================================================ */
+  /* Testimonial section — pixel-perfect from Figma node 1:2788    */
+  /*   Frame 1640x833 · #EEF4FF (taken from the node's SVG export) */
+  /*   Slider is Swiper; only the quote + person move, the rule    */
+  /*   and arrows are fixed furniture on the card.                 */
+  /* ============================================================ */
+  .testi-section {
+    /* Quote size and the gaps around the rule scale together, so the card
+       stays proportional instead of stranding a fixed 120px well under a
+       shrunken quote. Both hit the Figma values at 1640. */
+    --testi-fs: clamp(17px, 1.83vw, 30px);
+    --testi-gap: clamp(22px, 3.05vw, 50px);
+    --testi-pad: clamp(28px, 5vw, 70px);
+    /* Three lines at the Figma 1.3333 line-height. */
+    --testi-quote-h: calc(var(--testi-fs) * 4);
+
+    position: relative;
+    overflow: hidden;
+    background: #eef4ff;
+    padding-block: clamp(56px, 6.1vw, 100px);
+  }
+
+  /* Network artwork bleeds past the bottom edge. Correlating the Figma
+     render against the exported SVG puts its first row at section y=245,
+     i.e. 82px of a 1640x670 illustration hanging below an 833px section —
+     5% of the width, so -5vw keeps the bleed proportional as it scales. */
+  .testi-network {
+    position: absolute;
+    left: 0;
+    bottom: -5vw;
+    width: 100%;
+    height: auto;
+    pointer-events: none;
+  }
+
+  .testi-inner {
+    position: relative;
+    z-index: 1;
+    margin-inline: auto;
+    width: 100%;
+    max-width: 1400px;
+  }
+
+  /* Header ------------------------------------------------------------ */
+  .testi-head {
+    display: flex;
+    gap: clamp(16px, 2.3vw, 38px);
+    /* The Figma frame is y-flipped, so its `items-start` reads as
+       bottom-aligned once un-flipped. */
+    align-items: flex-end;
+  }
+  .testi-quote-mark {
+    flex-shrink: 0;
+    width: clamp(72px, 11vw, 180px);
+    height: clamp(72px, 11vw, 180px);
+  }
+  .testi-title {
+    font-family: "Sora", sans-serif;
+    font-weight: 800;
+    font-size: clamp(28px, 3.66vw, 60px);
+    line-height: 1.3167;
+    color: transparent;
+    background-image: url("../assets/testimonial/title-gradient.png");
+    background-size: cover;
+    background-position: center;
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+
+  /* Card -------------------------------------------------------------- */
+  .testi-card {
+    position: relative;
+    margin-top: 30px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.67);
+    padding: var(--testi-pad);
+  }
+
+  .testi-swiper {
+    width: 100%;
+  }
+
+  .testi-quote {
+    margin: 0;
+    /* Block, not flex — flex would make each text run and the <strong> its
+       own item and destroy the line wrapping. Three lines at 40px keeps
+       every slide the same height, so the rule and arrows stay put. */
+    min-height: var(--testi-quote-h);
+    font-family: "Solway", Georgia, serif;
+    font-weight: 300;
+    font-size: var(--testi-fs);
+    line-height: 1.3333;
+    text-align: center;
+    color: transparent;
+    background-image: linear-gradient(to left, #1d2939, #52589f);
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+  .testi-quote strong {
+    font-weight: 700;
+    color: inherit;
+  }
+
+  /* Rule + arrows sit on top of the slide's mid gap. */
+  .testi-rule-row {
+    position: absolute;
+    left: var(--testi-pad);
+    right: var(--testi-pad);
+    /* card padding + quote block + the gap above the rule */
+    top: calc(var(--testi-pad) + var(--testi-quote-h) + var(--testi-gap));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+  }
+  .testi-rule {
+    width: 1160px;
+    max-width: 100%;
+    height: 1px;
+    background-image: repeating-linear-gradient(
+      to right,
+      #c9d9f6 0 5px,
+      transparent 5px 10px
+    );
+  }
+
+  .testi-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: auto;
+    /* Swiper's own .swiper wrapper carries z-index: 1, so without this the
+       active slide paints over the arrows and swallows both hover and
+       clicks — they overlap the card by 20px at each end. */
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 41px;
+    border: 0;
+    border-radius: 70px;
+    background: rgba(59, 92, 211, 0.77);
+    cursor: pointer;
+    transition:
+      background-color 0.25s ease,
+      scale 0.25s ease;
+  }
+  .testi-nav:hover:not(.swiper-button-disabled) {
+    background: rgba(59, 92, 211, 0.9);
+    scale: 1.08;
+  }
+  .testi-nav:active:not(.swiper-button-disabled) {
+    scale: 0.96;
+    transition-duration: 0.08s;
+  }
+  /* Figma renders the first slide: prev dimmed, next solid. */
+  .testi-nav.swiper-button-disabled {
+    background: rgba(59, 92, 211, 0.39);
+    cursor: default;
+  }
+  .testi-nav--prev {
+    left: -20px;
+  }
+  .testi-nav--next {
+    right: -12px;
+  }
+  .testi-nav img {
+    display: block;
+    width: 9px;
+    height: 15px;
+  }
+  .testi-nav--prev img {
+    transform: rotate(180deg);
+  }
+
+  /* Person ------------------------------------------------------------ */
+  .testi-person {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+  }
+  .testi-avatar {
+    flex-shrink: 0;
+    width: 63px;
+    height: 63px;
+    border-radius: 999px;
+    object-fit: cover;
+  }
+  .testi-person-text {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+  }
+  .testi-name {
+    font-family: "Sora", sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: normal;
+    color: #2558e5;
+  }
+  .testi-role {
+    font-family: "Nunito", sans-serif;
+    font-weight: 400;
+    font-size: 17px;
+    line-height: normal;
+    color: #7d7fc7;
+  }
+
+  /* Stacked arrow pair for narrow screens; the rule row is hidden there.
+     Declared before the media query so the override below wins. */
+  .testi-nav-mobile {
+    display: none;
+  }
+
+  @media (max-width: 767px) {
+    .testi-head {
+      align-items: center;
+    }
+    .testi-rule-row {
+      display: none;
+    }
+    .testi-quote {
+      min-height: 0;
+    }
+    .testi-nav-mobile {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      margin-top: 24px;
+    }
+    .testi-nav-mobile .testi-nav {
+      position: static;
+      transform: none;
+    }
+  }
+
+  /* ============================================================ */
+  /* Contact CTA — pixel-perfect from Figma node 1:3441            */
+  /*   Frame 1640x816 · flat #060727 (from the node's SVG export)  */
+  /*   Artwork is Figma's own raster: its 269 multiply/overlay/    */
+  /*   screen layers do not survive Chrome's SVG blending, and the */
+  /*   baked #060727 backdrop matches this fill seamlessly.        */
+  /* ============================================================ */
+  .cta-section {
+    position: relative;
+    overflow: hidden;
+    background: #060727;
+    padding-top: clamp(64px, 7.32vw, 120px);
+    padding-bottom: clamp(120px, 16.77vw, 275px);
+  }
+
+  .cta-artwork {
+    position: absolute;
+    left: 3.11%;
+    bottom: 0;
+    width: 93.78%;
+    height: auto;
+    pointer-events: none;
+  }
+
+  .cta-inner {
+    position: relative;
+    z-index: 1;
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(22px, 2.44vw, 40px);
+    width: 100%;
+    max-width: 1120px;
+    text-align: center;
+  }
+
+  .cta-title {
+    font-family: "Sora", sans-serif;
+    font-weight: 800;
+    font-size: clamp(30px, 3.66vw, 60px);
+    line-height: 1.0833;
+    color: #ffffff;
+    text-shadow: 0 4px 6px rgba(0, 0, 0, 0.67);
+  }
+
+  /* Capabilities pill -------------------------------------------------- */
+  .cta-pill {
+    display: flex;
+    flex-wrap: wrap;
+    gap: clamp(12px, 1.22vw, 20px);
+    align-items: center;
+    justify-content: center;
+    padding: 10px clamp(20px, 2.44vw, 40px);
+    border: 1px solid #11183a;
+    border-radius: 100px;
+    background: #1f0360;
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    list-style: none;
+    margin: 0;
+  }
+  .cta-tag {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    height: 22px;
+    font-family: "Sora", sans-serif;
+    font-weight: 600;
+    font-size: 10px;
+    line-height: normal;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: #8fa0dd;
+    white-space: nowrap;
+  }
+  .cta-tag::before {
+    content: "";
+    flex-shrink: 0;
+    width: 4px;
+    height: 4px;
+    border-radius: 999px;
+    background: #20ecff;
+  }
+
+  .cta-body {
+    font-family: "Sora", sans-serif;
+    font-weight: 100;
+    font-size: clamp(16px, 1.83vw, 30px);
+    line-height: 1.5;
+    color: transparent;
+    background-image: url("../assets/cta/body-gradient.png");
+    background-size: cover;
+    background-position: center;
+    -webkit-background-clip: text;
+    background-clip: text;
+    text-shadow: 0 4px 6px rgba(0, 0, 0, 0.67);
+  }
+
+  /* Button reuses .hero-cta-primary — the Figma fill and shadow here are
+     the same ones the hero button already carries. */
+  .cta-button {
+    display: inline-flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: center;
+    padding: 18px 48px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 999px;
+    font-family: "Sora", sans-serif;
+    font-weight: 300;
+    font-size: 18px;
+    line-height: normal;
+    color: #ffffff;
+    white-space: nowrap;
+  }
+  .cta-button img {
+    display: block;
+    width: 20px;
+    height: 20px;
+  }
+
+  /* ============================================================ */
+  /* Footer — pixel-perfect from Figma node 1:4673                 */
+  /*   Frame 1640x399 · #03041C · brand 400 + 3x200 link columns   */
+  /* ============================================================ */
+  .site-footer {
+    background: #03041c;
+    padding: 80px clamp(24px, 7.32vw, 120px) 40px;
+  }
+
+  .footer-inner {
+    margin-inline: auto;
+    width: 100%;
+    max-width: 1400px;
+  }
+
+  .footer-top {
+    display: flex;
+    flex-wrap: wrap;
+    gap: clamp(40px, 6.1vw, 100px);
+    align-items: flex-start;
+    padding-bottom: clamp(40px, 3.9vw, 64px);
+    width: 100%;
+  }
+
+  /* Brand ------------------------------------------------------------- */
+  .footer-brand {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    align-items: flex-start;
+    width: 400px;
+    max-width: 100%;
+  }
+  .footer-lockup {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+  }
+  .footer-lockup-top {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    align-items: flex-start;
+  }
+  .footer-logo-mark {
+    display: block;
+    width: 187.85px;
+    height: 55.49px;
+  }
+  .footer-wordmark {
+    font-family: "Nunito", sans-serif;
+    font-weight: 700;
+    font-size: 19px;
+    line-height: 27px;
+    letter-spacing: 10.64px;
+    /* Cancel the trailing letter-space so the word optically centres. */
+    margin-right: -10.64px;
+    text-transform: uppercase;
+    text-align: center;
+    color: #ffffff;
+    white-space: nowrap;
+  }
+  .footer-tagline {
+    font-family: "Sora", sans-serif;
+    font-weight: 200;
+    font-size: 9px;
+    line-height: normal;
+    letter-spacing: 1.5px;
+    margin-right: -1.5px;
+    text-transform: uppercase;
+    color: #a39bc7;
+    white-space: nowrap;
+  }
+  .footer-description {
+    font-family: "Nunito", sans-serif;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: normal;
+    color: #dcd8ee;
+  }
+
+  /* Link columns ------------------------------------------------------ */
+  .footer-columns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 48px;
+    align-items: stretch;
+  }
+  .footer-column {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    align-items: flex-start;
+    width: 200px;
+    border-right: 1px solid rgba(48, 21, 92, 0.52);
+  }
+  .footer-column:last-child {
+    border-right: 0;
+  }
+
+  .footer-column-title {
+    font-family: "Sora", sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: normal;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #ffffff;
+  }
+  .footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: flex-start;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .footer-links a {
+    font-family: "Sora", sans-serif;
+    font-weight: 200;
+    font-size: 14px;
+    line-height: 1.4;
+    color: #b6b7ff;
+    transition: color 0.2s ease;
+  }
+  .footer-links a:hover {
+    color: #ffffff;
+  }
+
+  /* Bottom bar -------------------------------------------------------- */
+  .footer-bottom {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 24px;
+    border-top: 1px solid #30155c;
+    width: 100%;
+    font-size: 12px;
+    color: #5e6d82;
+  }
+  .footer-copyright {
+    font-family: "Sora", sans-serif;
+    font-weight: 200;
+    line-height: normal;
+  }
+  .footer-site-link {
+    font-family: "Sora", sans-serif;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: 0.5px;
+    color: #5e6d82;
+    transition: color 0.2s ease;
+  }
+  .footer-site-link:hover {
+    color: #b6b7ff;
+  }
+
+  /* Below ~860px the three 200px columns no longer fit one row, so the
+     dividers would strand mid-row — drop them there. */
+  @media (max-width: 859px) {
+    .footer-column {
+      border-right: 0;
+    }
+  }
+  @media (max-width: 767px) {
+    .footer-column {
+      width: 100%;
+    }
+    .footer-columns {
+      gap: 32px;
+    }
+  }
+
+  /* Reveal helpers for GSAP ------------------------------------------ */
+  .reveal {
+    opacity: 0;
+  }
+}
+
+/* ==================================================================== */
+/* Swiper overrides — deliberately OUTSIDE @layer components.           */
+/*   Swiper ships an unlayered stylesheet, and an unlayered rule beats  */
+/*   anything inside a cascade layer no matter how specific, so         */
+/*   .swiper-slide{display:block} would silently win over a layered     */
+/*   .testi-slide{display:flex}. These load after Swiper's <link>, so   */
+/*   source order settles it.                                           */
+/* ==================================================================== */
+.testi-swiper .swiper-wrapper {
+  height: auto;
+  align-items: stretch;
+}
+
+.testi-swiper .testi-slide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Figma stacks quote / rule / person with a 50px gap each side of the
+     1px rule; the rule is positioned separately, so the slide carries the
+     full 101px between quote and person to keep the card height exact. */
+  gap: calc(var(--testi-gap) * 2 + 1px);
+  height: auto;
+}
+
+@media (max-width: 767px) {
+  /* The rule is hidden below 768, so the slide only needs one plain gap. */
+  .testi-swiper .testi-slide {
+    gap: 28px;
+  }
+}
