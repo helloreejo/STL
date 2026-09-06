@@ -45,12 +45,17 @@ unstyled text. If production ever looks wrong in a way local does not, check tha
 in `HEAD` matches a fresh `npm run build` before looking anywhere else.
 
 **Favicons** live in `assets/favicon/`, with `favicon.ico` at the site root so the implicit
-`/favicon.ico` request resolves. The mark is the "s" glyph lifted from `assets/images/logo.svg`
-(the wordmark's first glyph, at x 1.0–25.6 / y 12.8–45.9 in its viewBox), clipped out of the
-full wordmark path and filled with the brand ramp. The `*-source.svg` files are generation
-inputs, not served — they exist so the PNGs can be regenerated. Three insets are deliberate:
-14% for the tab icon, 8% for the 16px (the strokes vanish at the roomier inset), and a 45%
-safe zone for the Android maskable, which launchers crop to a circle.
+`/favicon.ico` request resolves. `favicon.svg` is the supplied brand mark used **verbatim**
+— no tile, no background — and every PNG is rendered from it, transparent. Keep it that way:
+the mark was checked against white, a dark tab (`#202124`) and black, and it reads on all
+three, so a background tile is not needed and would only be something to keep in sync.
+
+`maskable-source.svg` is the one generated variant: Android launchers crop maskable icons to
+a circle, so it re-insets the same artwork into a 46% safe zone. It is a generation input,
+not served. The mark's measured ink box is x 9.67 / y 2.0 / 30.67 x 46.
+
+When rendering the PNGs, set `Emulation.setDefaultBackgroundColorOverride` to alpha 0 —
+Chrome otherwise paints an opaque white page and the transparency is lost.
 
 ## Commands
 

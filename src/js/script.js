@@ -435,15 +435,35 @@
   // card in the section firing off the section's own trigger. That old
   // behaviour animated the partner grid's second row while it was still ~600px
   // below the fold, so by the time you scrolled to it the motion was over.
-  const revealCards = document.querySelectorAll("[data-reveal-card]");
-  if (revealCards.length) {
-    window.ScrollTrigger.batch(revealCards, {
-      start: REVEAL.start,
-      once: true,
-      onEnter: (batch) =>
-        gsap.from(batch, revealTween({ stagger: REVEAL.stagger, clearProps: "transform" })),
-    });
-  }
+  // Cards get their own trigger each, so a row reveals when that row arrives
+  // rather than when the section does — the partner grid's second row used to
+  // animate ~600px below the fold and was over before you reached it.
+  //
+  // Built up front rather than inside a ScrollTrigger.batch onEnter, which
+  // looked equivalent but failed two ways: a `from` tween applies its start
+  // state when it is created, so building it on enter made the card visibly
+  // snap to transparent and fade back in; and pre-setting the state to dodge
+  // that left any card already scrolled past on load stuck invisible, because
+  // it never "enters". Creating them here means the start state is applied at
+  // load, off-screen, and a card already past its start simply plays through.
+  gsap.utils.toArray("[data-reveal-card]").forEach((card) => {
+    const row = card.parentElement;
+    const index = row ? Array.prototype.indexOf.call(row.children, card) : 0;
+    gsap.from(
+      card,
+      revealTween({
+        // Siblings share a scroll position, so the stagger has to come from
+        // the card's place in its row rather than from a batch.
+        delay: index * REVEAL.stagger,
+        clearProps: "transform",
+        scrollTrigger: {
+          trigger: card,
+          start: REVEAL.start,
+          toggleActions: "play none none none",
+        },
+      })
+    );
+  });
 
   // Stats reveal — the figures climb to their value as the row arrives.
   gsap.utils.toArray("[data-reveal-stat]").forEach((el, i) => {
