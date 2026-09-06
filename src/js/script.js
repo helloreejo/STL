@@ -312,6 +312,45 @@
     syncArrows();
   }
 
+  // --- Cursor spotlight on cards ----------------------------------------
+  //   Feeds the pointer position to the CSS glow. Everything visual lives in
+  //   the stylesheet; this only publishes coordinates. Skipped entirely under
+  //   reduced motion and on coarse pointers, where there is no hover to track.
+  const spotCards = document.querySelectorAll(".partner-card, .care-card");
+  if (
+    spotCards.length &&
+    !reduce &&
+    window.matchMedia("(hover: hover) and (pointer: fine)").matches
+  ) {
+    let queued = null;
+    let frame = 0;
+
+    const paint = () => {
+      frame = 0;
+      if (!queued) return;
+      const { card, x, y } = queued;
+      queued = null;
+      // Read the rect here rather than on enter: the page scrolls under the
+      // cursor, so a rect cached on pointerenter goes stale immediately.
+      // Batched into the frame, so it is one layout read per frame at most.
+      const r = card.getBoundingClientRect();
+      card.style.setProperty("--spot-x", Math.round(x - r.left) + "px");
+      card.style.setProperty("--spot-y", Math.round(y - r.top) + "px");
+    };
+
+    spotCards.forEach((card) => {
+      card.addEventListener(
+        "pointermove",
+        (e) => {
+          if (e.pointerType !== "mouse") return;
+          queued = { card, x: e.clientX, y: e.clientY };
+          if (!frame) frame = requestAnimationFrame(paint);
+        },
+        { passive: true }
+      );
+    });
+  }
+
   // --- GSAP animations --------------------------------------------------
   if (reduce || nofx || typeof window.gsap === "undefined") return;
 
@@ -351,63 +390,74 @@
 
   if (!window.ScrollTrigger) return;
 
+  // One reveal for the whole site. Blocks, cards and stats used to each carry
+  // their own distance, duration, easing and trigger point, which is why the
+  // page never felt like one piece of motion. They now share this.
+  const REVEAL = {
+    y: 40,
+    opacity: 0,
+    duration: 0.8,
+    ease: "power3.out",
+    stagger: 0.08,
+    start: "top 85%",
+  };
+  const revealTween = (extra) =>
+    Object.assign(
+      { y: REVEAL.y, opacity: REVEAL.opacity, duration: REVEAL.duration, ease: REVEAL.ease },
+      extra
+    );
+
   // Section blocks reveal
   gsap.utils.toArray("[data-reveal-block]").forEach((el) => {
     // A block that holds several children reads better when they arrive in
     // sequence — heading, then supporting line — rather than the whole box
     // sliding as one rigid unit. Single-child blocks animate themselves.
     const parts = el.children.length > 1 ? Array.from(el.children) : [el];
-    gsap.from(parts, {
-      y: 40,
-      opacity: 0,
-      duration: 0.9,
-      ease: "power3.out",
-      stagger: parts.length > 1 ? 0.09 : 0,
-      // Hand the element back to CSS once it has landed. GSAP otherwise
-      // leaves its own `transform` (and a `translate: none`) inline, and an
-      // inline style outranks a rule — which silently kills the :hover lift
-      // on any revealed control, the contact CTA button among them.
-      clearProps: "transform",
-      scrollTrigger: {
-        trigger: el,
-        start: "top 85%",
-        toggleActions: "play none none none",
-      },
-    });
+    gsap.from(
+      parts,
+      revealTween({
+        stagger: parts.length > 1 ? REVEAL.stagger : 0,
+        // Hand the element back to CSS once it has landed. GSAP otherwise
+        // leaves its own `transform` (and a `translate: none`) inline, and an
+        // inline style outranks a rule — which silently kills the :hover lift
+        // on any revealed control, the contact CTA button among them.
+        clearProps: "transform",
+        scrollTrigger: {
+          trigger: el,
+          start: REVEAL.start,
+          toggleActions: "play none none none",
+        },
+      })
+    );
   });
 
-  // Cards stagger reveal (per section)
-  document.querySelectorAll("section").forEach((section) => {
-    const cards = section.querySelectorAll("[data-reveal-card]");
-    if (!cards.length) return;
-    gsap.from(cards, {
-      y: 40,
-      opacity: 0,
-      duration: 0.7,
-      ease: "power2.out",
-      stagger: 0.08,
-      scrollTrigger: {
-        trigger: section,
-        start: "top 75%",
-        toggleActions: "play none none none",
-      },
+  // Cards reveal in the batch that is actually arriving, rather than every
+  // card in the section firing off the section's own trigger. That old
+  // behaviour animated the partner grid's second row while it was still ~600px
+  // below the fold, so by the time you scrolled to it the motion was over.
+  const revealCards = document.querySelectorAll("[data-reveal-card]");
+  if (revealCards.length) {
+    window.ScrollTrigger.batch(revealCards, {
+      start: REVEAL.start,
+      once: true,
+      onEnter: (batch) =>
+        gsap.from(batch, revealTween({ stagger: REVEAL.stagger, clearProps: "transform" })),
     });
-  });
+  }
 
   // Stats reveal — the figures climb to their value as the row arrives.
   gsap.utils.toArray("[data-reveal-stat]").forEach((el, i) => {
-    gsap.from(el, {
-      y: 24,
-      opacity: 0,
-      duration: 0.6,
-      ease: "power2.out",
-      delay: i * 0.06,
-      scrollTrigger: {
-        trigger: el,
-        start: "top 90%",
-        toggleActions: "play none none none",
-      },
-    });
+    gsap.from(
+      el,
+      revealTween({
+        delay: i * REVEAL.stagger,
+        scrollTrigger: {
+          trigger: el,
+          start: REVEAL.start,
+          toggleActions: "play none none none",
+        },
+      })
+    );
 
     // Values carry a unit ("2M"), so split the leading number from whatever
     // follows it and only animate the number. Anything without a leading
@@ -429,17 +479,32 @@
       n: target,
       duration: 1.6,
       ease: "power2.out",
-      delay: i * 0.06,
+      delay: i * REVEAL.stagger,
       onUpdate: () => {
         valueEl.textContent = counter.n.toFixed(decimals) + suffix;
       },
       scrollTrigger: {
         trigger: el,
-        start: "top 90%",
+        start: REVEAL.start,
         toggleActions: "play none none none",
       },
     });
   });
+
+  // Reading progress bar, scrubbed against the document's own scroll range.
+  const progress = document.querySelector("[data-scroll-progress]");
+  if (progress) {
+    gsap.to(progress, {
+      scaleX: 1,
+      ease: "none",
+      scrollTrigger: {
+        trigger: document.documentElement,
+        start: "top top",
+        end: "bottom bottom",
+        scrub: 0.3,
+      },
+    });
+  }
 
   // Parallax: the care section's artwork drifts against the copy as the
   // section passes, which reads as depth rather than as movement. Kept small
@@ -572,6 +637,15 @@
           end: () => "+=" + Math.round(steps * window.innerHeight * 0.66),
           pin: true,
           anticipatePin: 1,
+          // Refresh this one FIRST. Pinning inserts a spacer as tall as the
+          // pin, which pushes every later section down the page — but this
+          // trigger is created last, so without a priority it also refreshes
+          // last, and every reveal below it measured its start position
+          // before the spacer existed. They then fired a full pin-length
+          // (~2.4k px) early, i.e. while still far below the fold, which is
+          // why the care, testimonial, contact and footer sections looked
+          // like they had no animation at all.
+          refreshPriority: 1,
           scrub: 0.5,
           // One panel per gesture: land on a whole pair, never between two.
           snap: reduce

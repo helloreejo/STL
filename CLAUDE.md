@@ -95,6 +95,14 @@ the markup — the values are a design system with provenance, and inlining them
 - **Pinned sections must fill the viewport.** GSAP's pin-spacer is transparent; a pinned
   section shorter than the screen shows the page background through as a black band.
   `.services-section` has `min-height: 100svh` for this reason.
+- **A pin must refresh before anything below it.** ScrollTrigger refreshes in creation
+  order, and the services pin is created last. Pinning inserts a spacer as tall as the pin,
+  which pushes every later section down — so the reveals in care, testimonials, contact and
+  the footer had measured their start positions before that spacer existed and fired a full
+  pin-length (~2.4k px) early, while still far below the fold. It looked exactly like "those
+  sections have no animation". `ScrollTrigger.refresh()` does **not** fix it; the pin needs
+  `refreshPriority: 1`. Symptom to watch for: a trigger's `start` is off by precisely the
+  pin's length.
 - **Lenis drives scrolling.** `window.scrollTo()` fights it — use `lenis.scrollTo()`.
   When testing, instant `scrollTo` jumps produce garbage results; drive real wheel events.
 

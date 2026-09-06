@@ -83,6 +83,68 @@
 }
 
 @layer components {
+  /* Cursor spotlight --------------------------------------------------- */
+  /*  A soft radial glow that follows the pointer across a card. JS writes
+      --spot-x / --spot-y; everything else is CSS, so with JS idle the glow
+      simply never becomes visible.
+
+      Gated on a fine pointer: on touch there is no hover to track, and the
+      glow would either stick where the last tap landed or never appear.
+      `border-radius: inherit` clips it to the card's own corners, which
+      avoids putting `overflow: hidden` on the card and risking clipped
+      content at narrow widths. */
+  @media (hover: hover) and (pointer: fine) {
+    .partner-card::before,
+    .care-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      border-radius: inherit;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+    }
+    /* Violet on the white partner surface … */
+    .partner-card::before {
+      background: radial-gradient(
+        18rem circle at var(--spot-x, 50%) var(--spot-y, 50%),
+        rgba(124, 92, 246, 0.14),
+        rgba(124, 92, 246, 0) 72%
+      );
+    }
+    /* … and a cooler, brighter one on the translucent blue care cards. */
+    .care-card::before {
+      background: radial-gradient(
+        16rem circle at var(--spot-x, 50%) var(--spot-y, 50%),
+        rgba(150, 214, 255, 0.34),
+        rgba(150, 214, 255, 0) 70%
+      );
+    }
+    .partner-card:hover::before,
+    .care-card:hover::before {
+      opacity: 1;
+    }
+  }
+
+  /* Reading progress -------------------------------------------------- */
+  /*  Sits above the header (z-40) but below the skip link (z-100). Starts at
+      scaleX(0) and is driven by the scroll position, so with JS off — or under
+      reduced motion, where the whole GSAP block is skipped — it simply never
+      appears rather than sitting there as a full-width bar. */
+  .scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 50;
+    height: 2px;
+    width: 100%;
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+    background: linear-gradient(90deg, #7cc6ff 0%, #a066ff 50%, #ff6bb5 100%);
+    pointer-events: none;
+  }
+
   /* Page shell -------------------------------------------------------- */
   /*  Every section's inner wrapper is the same box: centred, full width up
       to the content column, with a gutter on small screens. It was spelled
@@ -567,6 +629,10 @@
   }
 
   .partner-card {
+    position: relative;
+    /* The glow below is a z-index:-1 pseudo. Without a stacking context here
+       it would paint behind the card's own surface instead of on it. */
+    isolation: isolate;
     background: #ffffff;
     /* 8px reads tight on a card this large; 12 is the usual modern step for
        a surface of a few hundred pixels. */
@@ -1134,6 +1200,7 @@
 
   .care-card {
     position: relative;
+    isolation: isolate;
     overflow: hidden;
     display: flex;
     flex-direction: column;
