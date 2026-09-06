@@ -1,0 +1,7 @@
+# No build on Netlify — dist/ is built locally and committed, and the site is
+# published exactly as it sits in the repo. The command is an explicit no-op so
+# Netlify does not auto-detect a framework and try to build anyway.
+[build]
+  command = "echo 'dist/ is committed; nothing to build'"
+  # index.html, assets/ and the committed dist/ all live at the repo root.
+  publish = "."

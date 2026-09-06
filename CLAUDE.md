@@ -13,7 +13,7 @@ Design file: https://www.figma.com/design/9NPFFy8F7szXQDkyxTXOzA/SantoTech-Labs-
 index.html          the whole page — every section lives here
 src/css/input.css   THE stylesheet you edit (~1800 lines, Tailwind v4 entry)
 src/js/script.js    THE script you edit (vanilla IIFE)
-dist/               BUILD OUTPUT — generated, gitignored, never edit by hand
+dist/               BUILD OUTPUT — generated, but COMMITTED (see below). Never edit by hand
 assets/             images, organised per section (partner/, services/, cta/ …)
 assets/vendor/      self-hosted third-party libs — pinned copies, do not edit
 ```
@@ -31,6 +31,18 @@ weight).
 
 `index.html` loads `dist/app.css` and `dist/app.js`. Editing `src/` alone changes nothing
 in the browser until you build.
+
+**`dist/` is committed on purpose.** Netlify runs no build step — it publishes the repo as
+it stands (see `netlify.toml`). That means the build output in git *is* what production
+serves, so:
+
+> **Run `npm run build` and commit `dist/` before pushing, or production ships stale CSS
+> and JS while `src/` looks correct.**
+
+This is the one sharp edge of the setup. The site was once deployed with `dist/` gitignored
+and every other asset resolving fine — `app.css` and `app.js` 404'd and the page rendered as
+unstyled text. If production ever looks wrong in a way local does not, check that `dist/`
+in `HEAD` matches a fresh `npm run build` before looking anywhere else.
 
 **Favicons** live in `assets/favicon/`, with `favicon.ico` at the site root so the implicit
 `/favicon.ico` request resolves. The mark is the "s" glyph lifted from `assets/images/logo.svg`
@@ -75,6 +87,12 @@ exceptions, each commented at its rule:
 - services — padding is `vh`-based because the section is pinned and must fit one screen
 - contact CTA — bottom padding is `1.5 × --section-py` plus a `32vw` floor, because the
   artwork is absolutely positioned along the bottom edge
+
+**Cursor spotlight.** `.partner-card` / `.care-card` carry a `::before` radial glow; JS
+only publishes `--spot-x` / `--spot-y` from `pointermove`. All visuals stay in CSS, so the
+glow degrades to nothing when JS is idle. Gated on `(hover: hover) and (pointer: fine)` —
+on touch there is no hover, and the glow would stick where the last tap landed. The rect is
+read inside the rAF, not cached on pointerenter, because the page scrolls under the cursor.
 
 **Per-section styling** stays as component classes in `@layer components`, headed by a
 `pixel-perfect from Figma node X:Y` comment. Do **not** convert these to utility soup in
