@@ -163,31 +163,67 @@
     const targetFor = (i) =>
       positions[i] ? Math.max(0, Math.min(positions[i].left, maxScroll())) : 0;
 
-    // Active = the panel whose centre sits nearest the middle of the viewport.
-    // Centre-distance (rather than "first fully visible") is what keeps the
-    // final dash reachable once scrollLeft clamps at the end of the track.
-    const activeIndex = () => {
-      const mid = svcTrack.scrollLeft + svcTrack.clientWidth / 2;
-      let best = 0;
-      let bestDist = Infinity;
-      positions.forEach((pos, i) => {
-        const dist = Math.abs(pos.left + pos.width / 2 - mid);
-        if (dist < bestDist) {
-          bestDist = dist;
-          best = i;
-        }
+    // How much of each panel is inside the track's viewport, 0..1.
+    const seenFractions = () => {
+      const left = svcTrack.scrollLeft;
+      const right = left + svcTrack.clientWidth;
+      return positions.map((pos) => {
+        const shown =
+          Math.min(pos.left + pos.width, right) - Math.max(pos.left, left);
+        return Math.max(0, Math.min(shown, pos.width)) / (pos.width || 1);
       });
-      return best;
     };
 
-    let current = -1;
+    // The layout shows two panels at once, so the dashes mark the pair rather
+    // than one "active" panel. 0.92 rather than 1 because a scrub lands on
+    // sub-pixel scroll positions that would otherwise read as "not quite in".
+    const inViewIndices = () => {
+      const seen = seenFractions();
+      const shown = seen.reduce((acc, f, i) => (f > 0.92 ? acc.concat(i) : acc), []);
+      if (shown.length) return shown;
+      // Mid-transition nothing is fully in: fall back to the widest-showing.
+      let best = 0;
+      seen.forEach((f, i) => {
+        if (f > seen[best]) best = i;
+      });
+      return [best];
+    };
+
+    let currentKey = "";
     const syncDots = () => {
-      const i = activeIndex();
-      if (i === current) return;
-      current = i;
-      dots.forEach((dot, j) =>
-        dot.setAttribute("aria-current", j === i ? "true" : "false")
-      );
+      const shown = inViewIndices();
+      const key = shown.join(",");
+      if (key === currentKey) return;
+      currentKey = key;
+      dots.forEach((dot, j) => {
+        dot.dataset.inview = shown.includes(j) ? "true" : "false";
+        // aria-current stays singular — the leading panel of the pair.
+        dot.setAttribute("aria-current", j === shown[0] ? "true" : "false");
+      });
+    };
+
+    // Depth pass: panels dim, shrink and let their oversized number drift as
+    // they leave the viewport. Driven from both the native scroll listener and
+    // the pinned scrub, so the two modes look identical.
+    const paintPanels = () => {
+      const W = svcTrack.clientWidth;
+      const left = svcTrack.scrollLeft;
+      const seen = seenFractions();
+      panels.forEach((panel, i) => {
+        const pos = positions[i];
+        if (!pos) return;
+        const f = seen[i];
+        // Squared so a half-shown panel reads clearly recessed, not just dim.
+        panel.style.opacity = (0.18 + 0.82 * f * f).toFixed(3);
+        panel.style.transform = "scale(" + (0.945 + 0.055 * f).toFixed(4) + ")";
+        const num = panel.querySelector(".service-num-row");
+        if (num) {
+          // Offset of the panel's centre from the track's, -1..1 -> parallax.
+          const off = (pos.left + pos.width / 2 - left - W / 2) / W;
+          num.style.transform =
+            "translate3d(" + (off * -34).toFixed(1) + "px,0,0)";
+        }
+      });
     };
 
     const scrollTrackTo = (i) =>
@@ -201,6 +237,18 @@
       maxScroll,
       targetFor,
       syncDots,
+      paintPanels,
+      // Distinct snap positions: with two panels in view the last one a panel
+      // can lead is length-2, so the track has that many advances.
+      steps: () => Math.max(1, panels.length - 2),
+      resetPanels: () => {
+        panels.forEach((panel) => {
+          panel.style.opacity = "";
+          panel.style.transform = "";
+          const num = panel.querySelector(".service-num-row");
+          if (num) num.style.transform = "";
+        });
+      },
       scrollTrackTo,
       goTo: scrollTrackTo, // replaced while the section is pinned
     };
@@ -208,11 +256,17 @@
     dots.forEach((dot, i) =>
       dot.addEventListener("click", () => services.goTo(i))
     );
-    svcTrack.addEventListener("scroll", syncDots, { passive: true });
+    const onTrackScroll = () => {
+      syncDots();
+      if (!reduce) paintPanels();
+    };
+    svcTrack.addEventListener("scroll", onTrackScroll, { passive: true });
     window.addEventListener("resize", () => {
       measure();
-      syncDots();
+      onTrackScroll();
     });
+    measure();
+    onTrackScroll();
     measure();
     syncDots();
   }
@@ -299,11 +353,16 @@
 
   // Section blocks reveal
   gsap.utils.toArray("[data-reveal-block]").forEach((el) => {
-    gsap.from(el, {
+    // A block that holds several children reads better when they arrive in
+    // sequence — heading, then supporting line — rather than the whole box
+    // sliding as one rigid unit. Single-child blocks animate themselves.
+    const parts = el.children.length > 1 ? Array.from(el.children) : [el];
+    gsap.from(parts, {
       y: 40,
       opacity: 0,
       duration: 0.9,
       ease: "power3.out",
+      stagger: parts.length > 1 ? 0.09 : 0,
       // Hand the element back to CSS once it has landed. GSAP otherwise
       // leaves its own `transform` (and a `translate: none`) inline, and an
       // inline style outranks a rule — which silently kills the :hover lift
@@ -335,7 +394,7 @@
     });
   });
 
-  // Stats reveal
+  // Stats reveal — the figures climb to their value as the row arrives.
   gsap.utils.toArray("[data-reveal-stat]").forEach((el, i) => {
     gsap.from(el, {
       y: 24,
@@ -349,7 +408,60 @@
         toggleActions: "play none none none",
       },
     });
+
+    // Values carry a unit ("2M"), so split the leading number from whatever
+    // follows it and only animate the number. Anything without a leading
+    // digit is left exactly as authored.
+    const valueEl = el.querySelector(".counter-value");
+    const parsed = valueEl && /^(\d+(?:\.\d+)?)(.*)$/.exec(valueEl.textContent.trim());
+    if (!parsed) return;
+
+    const target = parseFloat(parsed[1]);
+    const suffix = parsed[2];
+    const decimals = (parsed[1].split(".")[1] || "").length;
+    // Hold the final width so the row does not reflow while digits are added.
+    // Safe as a `ch` count because the face is set in tabular figures.
+    valueEl.style.display = "inline-block";
+    valueEl.style.minWidth = parsed[1].length + "ch";
+
+    const counter = { n: 0 };
+    gsap.to(counter, {
+      n: target,
+      duration: 1.6,
+      ease: "power2.out",
+      delay: i * 0.06,
+      onUpdate: () => {
+        valueEl.textContent = counter.n.toFixed(decimals) + suffix;
+      },
+      scrollTrigger: {
+        trigger: el,
+        start: "top 90%",
+        toggleActions: "play none none none",
+      },
+    });
   });
+
+  // Parallax: the care section's artwork drifts against the copy as the
+  // section passes, which reads as depth rather than as movement. Kept small
+  // — the tree is `mix-blend-mode: screen` over the section fill, and a large
+  // offset would drag its glow off the gradient it was composed against.
+  const careTree = document.querySelector(".care-tree");
+  if (careTree) {
+    gsap.fromTo(
+      careTree,
+      { yPercent: 4 },
+      {
+        yPercent: -4,
+        ease: "none",
+        scrollTrigger: {
+          trigger: careTree.closest("section"),
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 0.6,
+        },
+      }
+    );
+  }
 
   // ------------------------------------------------------------------
   // Distributed model — scroll-driven timeline
@@ -422,20 +534,22 @@
   }
 
   // --- Services: pin the section and drive the track from page scroll ---
-  //   Wide enough for the Figma 960px panels and tall enough that the whole
-  //   section fits one screen, otherwise the pin would crop the pagination.
-  //   Scrolling down advances the track left-to-right, 1px for 1px.
+  //   Two panels are in view at all times (the CSS sizes them to half the
+  //   track). Each scroll gesture advances the track by exactly one panel and
+  //   settles there, so the pair is always whole at rest. Once the last pair
+  //   is reached the pin releases and the page carries on to the next section.
   if (services && window.ScrollTrigger) {
     const mm = gsap.matchMedia();
 
     mm.add("(min-width: 1280px) and (min-height: 720px)", () => {
-      // Belt-and-braces: the CSS scales the section to fit one screen, but if
-      // it ever does not, pinning would crop the pagination off the bottom —
-      // leave it as a plain horizontal scroller instead.
-      if (services.section.offsetHeight > window.innerHeight) return;
+      // The CSS gives the section min-height:100svh so the pin never leaves a
+      // bare strip of page background showing. Sub-pixel viewport units can
+      // still land a hair over, so allow a pixel before giving up on the pin.
+      if (services.section.offsetHeight > window.innerHeight + 1) return;
 
       const track = services.track;
       const proxy = { x: 0 };
+      const steps = services.steps();
 
       // Snap points fight a programmatically driven scrollLeft.
       track.dataset.pinned = "true";
@@ -446,14 +560,28 @@
         onUpdate: () => {
           track.scrollLeft = proxy.x;
           services.syncDots();
+          if (!reduce) services.paintPanels();
         },
         scrollTrigger: {
           trigger: services.section,
           start: "top top",
-          end: () => "+=" + Math.max(1, services.maxScroll()),
+          // Roughly two-thirds of a screen per panel — long enough that a
+          // step feels deliberate, short enough that six panels do not turn
+          // into a marathon. The scrub maps this span onto the track's own
+          // scrollLeft, so the distance and the track width stay independent.
+          end: () => "+=" + Math.round(steps * window.innerHeight * 0.66),
           pin: true,
           anticipatePin: 1,
-          scrub: 0.4,
+          scrub: 0.5,
+          // One panel per gesture: land on a whole pair, never between two.
+          snap: reduce
+            ? false
+            : {
+                snapTo: 1 / steps,
+                duration: { min: 0.2, max: 0.5 },
+                delay: 0.04,
+                ease: "power2.inOut",
+              },
           invalidateOnRefresh: true,
           onRefresh: () => services.measure(),
         },
@@ -475,7 +603,9 @@
         delete track.dataset.pinned;
         track.scrollLeft = 0;
         services.goTo = services.scrollTrackTo;
+        services.resetPanels();
         services.syncDots();
+        if (!reduce) services.paintPanels();
       };
     });
   }

@@ -27,6 +27,21 @@
 }
 
 @layer base {
+  :root {
+    /* One vertical rhythm for every content section. 6.1vw resolves to the
+       Figma frame's 100px at its 1640px width, and the floor keeps small
+       screens from collapsing. Two sections already used this exact curve —
+       it is now the shared token rather than a repeated literal. */
+    --section-py: clamp(56px, 6.1vw, 100px);
+
+    /* The content column every section lines up against. Lives here rather
+       than in @theme because only this stylesheet consumes it — @theme is for
+       tokens that should generate Tailwind utilities (colours, fonts), and
+       unreferenced entries there can be pruned from the build. */
+    --container-max: 1280px;
+    --container-gutter: 1.5rem;
+  }
+
   html {
     scroll-behavior: smooth;
   }
@@ -68,6 +83,20 @@
 }
 
 @layer components {
+  /* Page shell -------------------------------------------------------- */
+  /*  Every section's inner wrapper is the same box: centred, full width up
+      to the content column, with a gutter on small screens. It was spelled
+      out as `mx-auto w-full max-w-[1280px] px-6` at five call sites; this is
+      that box, once. Sections needing a different gutter still say so with a
+      utility (`xl:px-0`, `xl:px-[90px]`) — utilities outrank components, so
+      those keep winning. */
+  .shell {
+    margin-inline: auto;
+    width: 100%;
+    max-width: var(--container-max);
+    padding-inline: var(--container-gutter);
+  }
+
   /* Hero-specific ------------------------------------------------------ */
   .hero-gradient-text {
     background-image: linear-gradient(
@@ -146,6 +175,84 @@
   .header-icon-btn:active {
     scale: 0.95;
     transition-duration: 0.08s;
+  }
+
+  /* Hero: fit one screen ---------------------------------------------- */
+  /*  From 1280px up the hero is sized to the viewport instead of the fixed
+      998px Figma frame. Every vertical metric is a fraction of viewport
+      height, clamped between a floor that stays readable and the exact Figma
+      value as the ceiling — so a tall screen renders the Figma frame
+      untouched, and a short one compresses rather than pushing content past
+      the fold. Same technique the pinned services section uses.
+
+      This is deliberately height-responsive: it is the only way the hero can
+      fit any window without knowing that window's height in advance. The
+      trade-off is that the headline re-wraps as the window is resized.
+
+      The utilities in the markup read these; they stay utilities so Tailwind's
+      layer still outranks anything else that might target the same element. */
+  @media (min-width: 1280px) {
+    .hero-layout {
+      /* Floor clears the floating header (147px to its bottom edge) plus a
+         little breathing room, so the h1 can never slide under it. */
+      --hero-pt: clamp(158px, 16.5vh, 180px);
+      --hero-pb: clamp(20px, 4.4vh, 47px);
+
+      --hero-title: clamp(70px, 6.9vh, 75px);
+      --hero-title-lh: clamp(75px, 8vh, 79px);
+      --hero-lede: clamp(16px, 2.25vh, 22px);
+      --hero-lede-lh: clamp(25px, 3.6vh, 36px);
+
+      --hero-stack-gap: clamp(12px, 2.6vh, 30px);
+      --hero-copy-gap: clamp(20px, 8.6vh, 101px);
+
+      --hero-cta-h: clamp(52px, 5.4vh, 60px);
+      --hero-cta-fs: clamp(15px, 1.65vh, 18px);
+
+      /* Art takes the whole vertical budget the padding leaves, plus a little
+         of the strip behind the floating header — the only unused height in
+         the hero. The artwork's top 5% of canvas is transparent, so the tree
+         climbs into that strip and gains height, and with it width. 30px is
+         the most it can take: past that the crown's ink reaches the header's
+         bottom edge on a short window and looks clipped. Capped at 805px. */
+      --hero-art-budget: calc(100svh - var(--hero-pt) - var(--hero-pb));
+      --hero-art-rise: 30px;
+      --hero-art-h: min(
+        805px,
+        calc(var(--hero-art-budget) + var(--hero-art-rise))
+      );
+      /* How much of the rise was actually used. Zero once the 805px cap binds
+         on a tall window, so the art stays centred there instead of riding
+         up. Negative-margined below, which keeps the art's OUTER box the same
+         and so leaves the row and hero heights untouched. */
+      --hero-art-lift: max(
+        0px,
+        calc(var(--hero-art-h) - var(--hero-art-budget))
+      );
+      /* Sized from hero-tree.png's real 1024x1536 ratio, not the 587x805 the
+         markup declares. The asset is narrower than its slot, so at the
+         declared ratio the box carried ~25px of transparent padding down each
+         side — dead space that read as part of the gap to the copy. Hugging
+         the true ratio hands that width back to the copy column instead. */
+      --hero-art-w: calc(var(--hero-art-h) * 1024 / 1536);
+    }
+
+    [data-hero-image] {
+      margin-top: calc(var(--hero-art-lift) * -1);
+    }
+  }
+
+  /* Works with `text-balance` on the h1: balance evens the line lengths so no
+     line is left short, and this keeps the closing two words together so the
+     balancer can never split them into "business" / "forward." Held back
+     until 640px: the glued pair
+     is 447px at the 48px size and 634px at the 68px cap, both of which fit
+     their column, but on a 390px phone it would be 354px against a 342px
+     column and overrun. Below 640px the heading wraps freely, as before. */
+  @media (min-width: 640px) {
+    .hero-title-tail {
+      white-space: nowrap;
+    }
   }
 
   .hero-h1-shadow {
@@ -451,11 +558,19 @@
     font-family: "Sora", sans-serif;
     font-weight: 200;
     color: #1d2039;
+    /* Ran to 90 characters on its first line at 1280px; comfortable prose is
+       45-75 and WCAG 1.4.8 puts the ceiling at 80. Deliberately not `ch`:
+       Sora's digit is 0.73em, so 62ch computed to 1351px and capped nothing.
+       Measured against real glyphs this face averages 0.473em per character,
+       which puts a ~72-character line at 34em. */
+    max-width: 34em;
   }
 
   .partner-card {
     background: #ffffff;
-    border-radius: 8px;
+    /* 8px reads tight on a card this large; 12 is the usual modern step for
+       a surface of a few hundred pixels. */
+    border-radius: 12px;
     padding: 36px;
     filter: drop-shadow(0 6px 2.5px rgba(171, 174, 198, 0.31));
   }
@@ -464,6 +579,11 @@
     font-family: "Sora", sans-serif;
     font-weight: 700;
     color: #1d2039;
+    /* The card lays its children out on a 10px rhythm so the title and its
+       description read as one unit. This lifts the icon-to-title gap to 20px,
+       so the heading groups with its own text rather than with the icon —
+       the whole point of the proximity rule. */
+    margin-top: 10px;
   }
 
   .partner-card-desc {
@@ -665,6 +785,9 @@
     font-family: "Sora", sans-serif;
     font-weight: 700;
     color: #2265f4;
+    /* The value counts up on reveal, so every digit must occupy the same
+       width — proportional figures make the number jitter as it climbs. */
+    font-variant-numeric: tabular-nums;
   }
   .counter-plus {
     font-family: "Sora", sans-serif;
@@ -691,6 +814,8 @@
     --svc-h2: clamp(26px, 6.2vw, 40px);
     --svc-sub: clamp(15px, 3.6vw, 20px);
     --svc-gap: 32px;
+    --svc-track-gap: 24px;
+    --svc-panel-pr: 32px;
     --svc-track-py: 24px;
     --svc-panel-py: 20px;
     --svc-num: clamp(64px, 17vw, 96px);
@@ -760,7 +885,7 @@
   .services-track {
     display: flex;
     align-items: stretch;
-    gap: 24px;
+    gap: var(--svc-track-gap);
     width: 100%;
     padding-block: var(--svc-track-py);
     overflow-x: auto;
@@ -788,9 +913,17 @@
     align-self: stretch;
     width: min(86vw, 560px);
     padding-block: var(--svc-panel-py);
-    padding-right: 32px;
+    padding-right: var(--svc-panel-pr);
     border-right: 1px solid #2d2a5b;
     scroll-snap-align: start;
+    /* The depth pass writes opacity/transform here every frame. Origin sits
+       below centre so a shrinking panel settles toward its own baseline
+       rather than drifting up off the divider. */
+    transform-origin: 50% 65%;
+    will-change: transform, opacity;
+  }
+  .service-num-row {
+    will-change: transform;
   }
 
   .service-num-row {
@@ -859,7 +992,8 @@
       background-color 0.35s ease,
       scale 0.25s ease;
   }
-  .services-dot[aria-current="true"] > span {
+  .services-dot[aria-current="true"] > span,
+  .services-dot[data-inview="true"] > span {
     background: #7e5ef9;
   }
   /* Scaled rather than resized: the dash sits in a fixed-height button, so
@@ -868,7 +1002,8 @@
     background: rgba(126, 94, 249, 0.65);
     scale: 1 1.75;
   }
-  .services-dot[aria-current="true"]:hover > span {
+  .services-dot[aria-current="true"]:hover > span,
+  .services-dot[data-inview="true"]:hover > span {
     background: #7e5ef9;
   }
 
@@ -892,14 +1027,25 @@
       --svc-gap-panel: clamp(10px, 1.32vh, 16px);
       --svc-dots-mt: clamp(6px, 0.83vh, 10px);
       --svc-dots-h: clamp(20px, 2.72vh, 33px);
+      --svc-panel-pr: clamp(32px, 4.6vh, 56px);
+
+      /* The pin freezes this section while the track advances. If it is
+         shorter than the viewport, the pin-spacer shows through beneath it as
+         a bare strip of the near-black page background — the "black area".
+         Filling the screen and centring the content removes it. */
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
 
+    /* Exactly two panels in view: half the track, less half the gap between
+       them. Everything downstream — the snap steps, the dashes, how far the
+       pin runs — is derived from this in JS, so this is the single place the
+       "two at a time" rule is stated. */
     .service-panel {
-      width: 960px;
-      padding-inline: 140px;
-    }
-    .service-panel:first-child {
-      padding-inline: 0 140px;
+      width: calc((100% - var(--svc-track-gap)) / 2);
+      padding-inline: 0 var(--svc-panel-pr);
     }
   }
 
@@ -912,7 +1058,7 @@
   .care-section {
     position: relative;
     overflow: hidden;
-    padding-block: clamp(56px, 6.1vw, 100px) clamp(64px, 7.3vw, 120px);
+    padding-block: var(--section-py);
     /* Exact section fill from the node's own SVG export (paint1_linear):
        userSpace vector (31.95,36.11)->(1554.32,848.11) on the 1640x983
        frame, converted to a CSS angle and stop percentages. */
@@ -1066,9 +1212,6 @@
   }
 
   @media (min-width: 1280px) {
-    .care-inner {
-      min-height: 763px;
-    }
     .care-left {
       width: 806px;
     }
@@ -1130,7 +1273,7 @@
     position: relative;
     overflow: hidden;
     background: #eef4ff;
-    padding-block: clamp(56px, 6.1vw, 100px);
+    padding-block: var(--section-py);
   }
 
   /* Network artwork bleeds past the bottom edge. Correlating the Figma
@@ -1361,8 +1504,21 @@
     position: relative;
     overflow: hidden;
     background: #060727;
-    padding-top: clamp(64px, 7.32vw, 120px);
-    padding-bottom: clamp(120px, 16.77vw, 275px);
+    padding-top: var(--section-py);
+    /* One and a half steps of the shared rhythm rather than the flat token.
+       .cta-artwork is absolutely positioned along the bottom edge, so this
+       padding is the only thing separating the button from it — at the plain
+       token the artwork crowds the button, and at the old 275px the section
+       trailed a bare band no artwork reached into. */
+    padding-bottom: calc(var(--section-py) * 1.5);
+    /* The artwork is 93.78vw wide at a 0.4018 aspect, so it grows with the
+       window while the copy above it does not. Its visible ink reaches
+       ~31vw up from the bottom edge; past roughly 2200px the section is
+       shorter than that and overflow:hidden was cropping the top of the
+       hand. This floor only engages there — at 1512 and 1920 the content
+       is already taller and nothing moves. 32 rather than a bare 31 leaves
+       headroom for rounding rather than landing on the pixel. */
+    min-height: 32vw;
   }
 
   .cta-artwork {
@@ -1478,7 +1634,7 @@
   /* ============================================================ */
   .site-footer {
     background: #03041c;
-    padding: 80px clamp(24px, 7.32vw, 120px) 40px;
+    padding: var(--section-py) clamp(24px, 7.32vw, 120px);
   }
 
   .footer-inner {
