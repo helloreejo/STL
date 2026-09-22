@@ -316,7 +316,7 @@
   //   Feeds the pointer position to the CSS glow. Everything visual lives in
   //   the stylesheet; this only publishes coordinates. Skipped entirely under
   //   reduced motion and on coarse pointers, where there is no hover to track.
-  const spotCards = document.querySelectorAll(".partner-card, .care-card");
+  const spotCards = document.querySelectorAll(".partner-card, .svc-card, .care-card");
   if (
     spotCards.length &&
     !reduce &&
@@ -349,6 +349,17 @@
         { passive: true }
       );
     });
+  }
+
+  // --- Contact form: sent state ------------------------------------------
+  //   Netlify redirects a successful submission to /contact.html?sent=1#sent.
+  //   CSS already swaps form for confirmation on :target; the class covers a
+  //   redirect that drops the fragment, and focus gets it announced.
+  const sent = document.getElementById("sent");
+  if (sent && new URLSearchParams(location.search).has("sent")) {
+    const wrap = sent.closest(".contact-form-wrap");
+    if (wrap) wrap.classList.add("form-sent");
+    sent.focus();
   }
 
   // --- GSAP animations --------------------------------------------------
@@ -616,6 +627,73 @@
         },
       });
     });
+  }
+
+  // --- Inner-page timeline (about) ---------------------------------------
+  //   Scrubs --tl, the drawn fraction of the line, with the scroll, and
+  //   lights each dot once the line has actually reached it. Without this
+  //   the CSS draws the line in full with every dot lit.
+  gsap.utils.toArray("[data-timeline-row]").forEach((row) => {
+    const steps = Array.from(row.querySelectorAll("[data-timeline-step]"));
+    let stops = [];
+
+    // Where each dot's centre falls along the line, 0-1. Layout offsets, not
+    // rects: the reveal is still holding the dots 40px low when this runs.
+    const measure = () => {
+      const across = steps.length > 1 && steps[1].offsetTop === steps[0].offsetTop;
+      stops = steps.map((step) => {
+        const dot = step.querySelector(".tl-dot");
+        if (!dot) return 0;
+        return across
+          ? (step.offsetLeft + dot.offsetLeft + dot.offsetWidth / 2) / row.clientWidth
+          : (step.offsetTop + dot.offsetTop + dot.offsetHeight / 2) / row.clientHeight;
+      });
+    };
+    const light = (drawn) =>
+      steps.forEach((step, i) => step.toggleAttribute("data-active", drawn >= stops[i]));
+
+    measure();
+    row.setAttribute("data-live", "");
+    gsap.fromTo(
+      row,
+      { "--tl": 0 },
+      {
+        "--tl": 1,
+        ease: "none",
+        // The tween's own progress, not the trigger's: with scrub smoothing
+        // the line lags the scroll, and the dot should light when the line
+        // arrives rather than when the scroll does.
+        onUpdate() {
+          light(this.progress());
+        },
+        scrollTrigger: {
+          trigger: row,
+          start: "top 75%",
+          end: "bottom 60%",
+          scrub: 0.6,
+          onRefresh: measure,
+        },
+      }
+    );
+    light(0);
+  });
+
+  // --- FAQ (about) -------------------------------------------------------
+  //   Opening or closing an answer changes the page height under every
+  //   trigger below it (the CTA reveal, the footer), and ScrollTrigger only
+  //   re-measures on resize. Refresh once the panel has settled. `toggle`
+  //   does not bubble, hence the capture listener on the list.
+  const faq = document.querySelector("[data-faq]");
+  if (faq) {
+    let settle = 0;
+    faq.addEventListener(
+      "toggle",
+      () => {
+        clearTimeout(settle);
+        settle = setTimeout(() => window.ScrollTrigger.refresh(), 400);
+      },
+      true
+    );
   }
 
   // --- Services: pin the section and drive the track from page scroll ---

@@ -1,0 +1,885 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About — Santo Tech Labs</title>
+    <meta
+      name="description"
+      content="Santo Tech Labs is a creative technology studio bringing design, engineering and growth together under one roof."
+    />
+
+    <meta name="theme-color" content="#02091a" />
+
+    <link rel="icon" href="./favicon.ico" sizes="32x32" />
+    <link rel="icon" href="./assets/favicon/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="./assets/favicon/apple-touch-icon.png" />
+    <link rel="manifest" href="./assets/favicon/site.webmanifest" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;700&family=Solway:wght@300;700&family=Sora:wght@100;200;300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- No Swiper on this page: there is no carousel, and dist/app.js already
+         skips its setup when Swiper is absent. -->
+    <link rel="stylesheet" href="./assets/vendor/lenis/lenis.css" />
+    <link rel="stylesheet" href="./dist/app.css" />
+
+    <script src="./assets/vendor/gsap/gsap.min.js" defer></script>
+    <script src="./assets/vendor/gsap/ScrollTrigger.min.js" defer></script>
+    <script src="./assets/vendor/lenis/lenis.min.js" defer></script>
+    <script src="./dist/app.js" defer></script>
+  </head>
+  <body class="bg-hero-bg font-sora text-white">
+    <div data-scroll-progress class="scroll-progress" aria-hidden="true"></div>
+    <a
+      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-black focus:px-4 focus:py-2 focus:text-white"
+      href="#main"
+      >Skip to main content</a
+    >
+
+    <!-- One canvas wraps the page: it is the positioning context for the
+         absolute header, and carries the home hero's gradient behind the
+         dark sections. -->
+    <div class="page-canvas hero-section">
+      <!-- Header + mobile nav: same markup as index.html, with links pointing
+           back to the home page's sections. Keep the two in sync. -->
+      <header
+        data-nav
+        class="site-header z-40 flex items-center justify-between gap-6"
+      >
+        <a
+          href="./index.html"
+          class="flex items-center gap-3 leading-none"
+          aria-label="Santo Tech Labs home"
+        >
+          <img src="assets/images/logo.svg" alt="STL" class="site-logo" />
+        </a>
+
+        <nav
+          aria-label="Primary"
+          class="ml-auto hidden items-center gap-5 text-[15px] xl:flex"
+        >
+          <a href="./services.html" class="nav-link font-medium">What we do</a>
+          <span aria-hidden="true" class="text-white/15">|</span>
+          <a
+            href="./about.html"
+            class="nav-link font-medium"
+            aria-current="page"
+            >Who we are</a
+          >
+          <span aria-hidden="true" class="text-white/15">|</span>
+          <a href="./contact.html" class="nav-link font-medium">Let's talk</a>
+        </nav>
+
+        <div class="flex items-center gap-2">
+          <a
+            href="./contact.html"
+            aria-label="Start a project"
+            class="header-icon-btn hidden h-10 w-10 items-center justify-center text-white/80 hover:text-white sm:inline-flex"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              class="h-5 w-5"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.7"
+              aria-hidden="true"
+            >
+              <path
+                d="M22 16.92v3a2 2 0 01-2.18 2 19.86 19.86 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.86 19.86 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.13.96.37 1.9.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0122 16.92z"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </a>
+          <button
+            type="button"
+            data-nav-toggle
+            aria-controls="mobile-nav"
+            aria-expanded="false"
+            aria-label="Open menu"
+            class="header-icon-btn inline-flex h-10 w-10 items-center justify-center text-white/80 hover:text-white xl:hidden"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              class="h-5 w-5"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              aria-hidden="true"
+            >
+              <path d="M3 6h18M3 12h18M3 18h18" stroke-linecap="round" />
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <nav
+        id="mobile-nav"
+        data-nav-panel
+        hidden
+        aria-label="Mobile"
+        class="mobile-nav-panel rounded-2xl border border-white/10 bg-[#06122a]/95 px-6 py-5 backdrop-blur xl:hidden"
+      >
+        <ul class="flex flex-col gap-3 text-sm">
+          <li>
+            <a
+              href="./services.html"
+              class="block text-white/85 hover:text-white"
+              >What we do</a
+            >
+          </li>
+          <li>
+            <a
+              href="./about.html"
+              aria-current="page"
+              class="block text-white hover:text-white"
+              >Who we are</a
+            >
+          </li>
+          <li>
+            <a
+              href="./contact.html"
+              class="block text-white/85 hover:text-white"
+              >Let's talk</a
+            >
+          </li>
+        </ul>
+      </nav>
+
+      <main id="main">
+        <!-- ============================================================ -->
+        <!-- HERO — copy over a full-bleed team photograph                -->
+        <!-- ============================================================ -->
+        <section
+          data-hero
+          class="page-hero page-hero--photo"
+          aria-labelledby="about-title"
+        >
+          <!-- Stock photography (Pexels) — see assets/about/SOURCES.txt. -->
+          <div class="page-hero-media" aria-hidden="true">
+            <img
+              src="./assets/about/hero-team.jpg"
+              alt=""
+              width="2000"
+              height="1200"
+              fetchpriority="high"
+            />
+          </div>
+          <div class="shell">
+            <div data-reveal-block class="page-hero-copy">
+              <h1 id="about-title" class="page-title">
+                A creative technology studio where
+                <span class="hero-gradient-text">ideas become products</span>.
+              </h1>
+              <p class="page-lede">
+                Santo Tech Labs brings design, engineering and growth together
+                under one roof. We help ambitious teams shape their brand, build
+                their product and take it to market &mdash; and we stay on to
+                make it better.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================================ -->
+        <!-- WHO WE ARE — photo collage, story, purpose / vision / mission -->
+        <!-- ============================================================ -->
+        <section class="page-light" aria-labelledby="about-who">
+          <div class="shell">
+            <div class="page-split">
+              <div data-reveal-block class="page-collage">
+                <img
+                  class="page-collage-main"
+                  src="./assets/about/team-collab.jpg"
+                  alt=""
+                  width="1040"
+                  height="1300"
+                  loading="lazy"
+                />
+              </div>
+
+              <div class="page-split-copy">
+                <div data-reveal-block class="page-stack">
+                  <h2 id="about-who" class="page-statement-title">
+                    Who we are<span class="num-mark-dot">.</span>
+                  </h2>
+                  <p class="page-lede">
+                    We're designers, engineers and marketers who enjoy hard
+                    problems and clear answers. We work as one team, so the
+                    brand, the product and the launch are shaped together from
+                    day one.
+                  </p>
+                  <p class="page-lede">
+                    Whether you're starting from a sketch or improving something
+                    already live, every detail gets the same care &mdash; and we
+                    stay on after launch to keep it getting better.
+                  </p>
+                </div>
+
+                <ul class="pvm-list" role="list">
+                  <li data-reveal-card class="pvm-item">
+                    <span class="pvm-icon" style="background: #8a65d5">
+                      <svg
+                        viewBox="0 0 24 24"
+                        width="24"
+                        height="24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                      >
+                        <circle cx="12" cy="12" r="9" />
+                        <circle cx="12" cy="12" r="5" />
+                        <circle cx="12" cy="12" r="1" />
+                      </svg>
+                    </span>
+                    <div>
+                      <h3 class="pvm-title">Our purpose</h3>
+                      <p class="pvm-desc">
+                        To turn good ideas into products people genuinely enjoy
+                        using.
+                      </p>
+                    </div>
+                  </li>
+                  <li data-reveal-card class="pvm-item">
+                    <span class="pvm-icon" style="background: #3e51e3">
+                      <svg
+                        viewBox="0 0 24 24"
+                        width="24"
+                        height="24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                      >
+                        <path
+                          d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"
+                        />
+                        <circle cx="12" cy="12" r="3" />
+                      </svg>
+                    </span>
+                    <div>
+                      <h3 class="pvm-title">Our vision</h3>
+                      <p class="pvm-desc">
+                        A world where every business, whatever its size, can
+                        build with world-class design and technology.
+                      </p>
+                    </div>
+                  </li>
+                  <li data-reveal-card class="pvm-item">
+                    <span class="pvm-icon" style="background: #0085cd">
+                      <svg
+                        viewBox="0 0 24 24"
+                        width="24"
+                        height="24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                      >
+                        <circle cx="12" cy="12" r="9" />
+                        <path d="M15.5 8.5l-2 5-5 2 2-5z" />
+                      </svg>
+                    </span>
+                    <div>
+                      <h3 class="pvm-title">Our mission</h3>
+                      <p class="pvm-desc">
+                        To design, build and grow digital products with the
+                        craft of a studio and the reliability of an engineering
+                        partner.
+                      </p>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================================ -->
+        <!-- WHAT SETS US APART — six cards on the care band               -->
+        <!-- ============================================================ -->
+        <section class="page-care" aria-labelledby="about-apart">
+          <div class="shell">
+            <div data-reveal-block class="care-head">
+              <h2 id="about-apart" class="care-title">
+                What sets us apart<span class="care-title-period">.</span>
+              </h2>
+              <p class="care-subtitle">
+                Senior people, direct access, and a team that treats your
+                product like its own.
+              </p>
+            </div>
+
+            <div class="care-grid">
+              <article data-reveal-card class="care-card">
+                <div class="care-card-head">
+                  <span class="care-glyph">
+                    <img
+                      src="./assets/care/icons/dedicated-team.svg"
+                      alt=""
+                      width="42"
+                      height="40"
+                    />
+                  </span>
+                  <h3 class="care-card-title">A small, senior team</h3>
+                </div>
+                <p class="care-card-desc">
+                  The same experienced people stay with your project from
+                  kickoff to launch and beyond.
+                </p>
+              </article>
+
+              <article data-reveal-card class="care-card">
+                <div class="care-card-head">
+                  <span class="care-glyph">
+                    <img
+                      src="./assets/care/icons/single-contact.svg"
+                      alt=""
+                      width="40"
+                      height="40"
+                    />
+                  </span>
+                  <h3 class="care-card-title">One accountable lead</h3>
+                </div>
+                <p class="care-card-desc">
+                  A single person owns your project end to end, so nothing falls
+                  through the cracks.
+                </p>
+              </article>
+
+              <article data-reveal-card class="care-card">
+                <div class="care-card-head">
+                  <span class="care-glyph">
+                    <svg
+                      viewBox="0 0 40 40"
+                      width="40"
+                      height="40"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                    >
+                      <path d="M20 5 4 13l16 8 16-8-16-8z" />
+                      <path d="m4 20.5 16 8 16-8" />
+                      <path d="m4 28 16 8 16-8" />
+                    </svg>
+                  </span>
+                  <h3 class="care-card-title">
+                    Design and engineering together
+                  </h3>
+                </div>
+                <p class="care-card-desc">
+                  Brand, product and code shaped by one team, so nothing gets
+                  lost in a handover.
+                </p>
+              </article>
+
+              <article data-reveal-card class="care-card">
+                <div class="care-card-head">
+                  <span class="care-glyph">
+                    <img
+                      src="./assets/care/icons/clear-scope.svg"
+                      alt=""
+                      width="36"
+                      height="40"
+                    />
+                  </span>
+                  <h3 class="care-card-title">Clear scope and cost</h3>
+                </div>
+                <p class="care-card-desc">
+                  Milestones and pricing agreed up front, before any work
+                  begins.
+                </p>
+              </article>
+
+              <article data-reveal-card class="care-card">
+                <div class="care-card-head">
+                  <span class="care-glyph">
+                    <svg
+                      viewBox="0 0 40 40"
+                      width="40"
+                      height="40"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M35 19.5a14.5 14.5 0 0 1-21.3 12.8L5 35l2.7-8.3A14.5 14.5 0 1 1 35 19.5z"
+                      />
+                      <path d="M14 17h13M14 23h8" />
+                    </svg>
+                  </span>
+                  <h3 class="care-card-title">Straight talking</h3>
+                </div>
+                <p class="care-card-desc">
+                  Honest estimates and plain-language updates. No surprises, no
+                  jargon.
+                </p>
+              </article>
+
+              <article data-reveal-card class="care-card">
+                <div class="care-card-head">
+                  <span class="care-glyph">
+                    <img
+                      src="./assets/care/icons/clean-exit.svg"
+                      alt=""
+                      width="48"
+                      height="48"
+                    />
+                  </span>
+                  <h3 class="care-card-title">Yours to keep</h3>
+                </div>
+                <p class="care-card-desc">
+                  Your code, designs and data &mdash; documented, and yours to
+                  take anywhere.
+                </p>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <!-- One light band carries both the process and the FAQ, split by a
+             hairline, so two light sections do not seam into each other. -->
+        <div class="page-light">
+          <!-- ========================================================== -->
+          <!-- PROCESS — how a project comes together, as a timeline       -->
+          <!-- ========================================================== -->
+          <section aria-labelledby="about-process">
+            <div class="shell">
+              <div data-reveal-block class="page-statement">
+                <h2 id="about-process" class="page-statement-title">
+                  How a project comes together<span class="num-mark-dot"
+                    >.</span
+                  >
+                </h2>
+                <p class="page-lede">
+                  A simple rhythm that keeps every project focused, visible and
+                  moving &mdash; whatever you're building.
+                </p>
+              </div>
+
+              <!-- role="list": Safari drops list semantics once list-style is
+                   removed. -->
+              <ol class="page-timeline" role="list" data-timeline-row>
+                <li data-reveal-block data-timeline-step class="tl-step">
+                  <span class="tl-dot" aria-hidden="true"></span>
+                  <h3 class="tl-title">Discover</h3>
+                  <p class="tl-desc">
+                    Workshops, research and a close look at your business, users
+                    and goals. We leave with a shared definition of success.
+                  </p>
+                </li>
+
+                <li data-reveal-block data-timeline-step class="tl-step">
+                  <span class="tl-dot" aria-hidden="true"></span>
+                  <h3 class="tl-title">Design</h3>
+                  <p class="tl-desc">
+                    Brand, UX and interface design, prototyped and tested early
+                    so decisions rest on evidence, not opinion.
+                  </p>
+                </li>
+
+                <li data-reveal-block data-timeline-step class="tl-step">
+                  <span class="tl-dot" aria-hidden="true"></span>
+                  <h3 class="tl-title">Build</h3>
+                  <p class="tl-desc">
+                    Engineering in short, visible sprints. You see working
+                    software at every step.
+                  </p>
+                </li>
+
+                <li data-reveal-block data-timeline-step class="tl-step">
+                  <span class="tl-dot" aria-hidden="true"></span>
+                  <h3 class="tl-title">Launch &amp; grow</h3>
+                  <p class="tl-desc">
+                    We ship, measure and improve &mdash; with the marketing and
+                    support to keep it performing.
+                  </p>
+                </li>
+              </ol>
+            </div>
+          </section>
+
+          <!-- ========================================================== -->
+          <!-- FAQ — native <details>, one open at a time                  -->
+          <!-- ========================================================== -->
+          <section aria-labelledby="about-faq">
+            <div class="shell">
+              <div class="faq-layout faq-layout--joined">
+                <div data-reveal-block class="faq-head">
+                  <h2 id="about-faq" class="page-statement-title">
+                    Questions, answered<span class="num-mark-dot">.</span>
+                  </h2>
+                  <p class="page-lede">
+                    The things clients usually ask before we start. Anything
+                    else?
+                    <a class="contact-link" href="./contact.html"
+                      >Ask us directly</a
+                    >.
+                  </p>
+                </div>
+
+                <div class="faq-list" data-faq>
+                  <details data-reveal-card class="faq-item" name="faq">
+                    <summary class="faq-q">
+                      <span>What kind of projects do you take on?</span>
+                      <span class="faq-icon" aria-hidden="true"></span>
+                    </summary>
+                    <div class="faq-a">
+                      <p>
+                        Brand identities, websites, web and mobile apps, custom
+                        software and AI features &mdash; from the first version
+                        of a new idea to improving a product that's already
+                        live. If it involves design, technology or growth, we're
+                        happy to talk it through.
+                      </p>
+                    </div>
+                  </details>
+
+                  <details data-reveal-card class="faq-item" name="faq">
+                    <summary class="faq-q">
+                      <span>How much does a project cost?</span>
+                      <span class="faq-icon" aria-hidden="true"></span>
+                    </summary>
+                    <div class="faq-a">
+                      <p>
+                        It depends on scope, so we don't quote blind. After a
+                        free consultation we send a clear, fixed proposal, with
+                        milestones and pricing agreed before any work begins.
+                      </p>
+                    </div>
+                  </details>
+
+                  <details data-reveal-card class="faq-item" name="faq">
+                    <summary class="faq-q">
+                      <span>How long does a typical project take?</span>
+                      <span class="faq-icon" aria-hidden="true"></span>
+                    </summary>
+                    <div class="faq-a">
+                      <p>
+                        Timelines follow scope: a focused website or brand
+                        identity is measured in weeks, a larger product in
+                        months. Your proposal includes a realistic plan, and
+                        you'll review working progress at every step.
+                      </p>
+                    </div>
+                  </details>
+
+                  <details data-reveal-card class="faq-item" name="faq">
+                    <summary class="faq-q">
+                      <span
+                        >Can you work with our existing team or codebase?</span
+                      >
+                      <span class="faq-icon" aria-hidden="true"></span>
+                    </summary>
+                    <div class="faq-a">
+                      <p>
+                        Yes. We can take over an existing product, extend it, or
+                        embed senior engineers alongside your own team &mdash;
+                        whichever gets you there fastest.
+                      </p>
+                    </div>
+                  </details>
+
+                  <details data-reveal-card class="faq-item" name="faq">
+                    <summary class="faq-q">
+                      <span>Who owns the code and designs?</span>
+                      <span class="faq-icon" aria-hidden="true"></span>
+                    </summary>
+                    <div class="faq-a">
+                      <p>
+                        You do. Code, designs and data are yours from day one,
+                        documented and ready to hand over whenever you need
+                        them.
+                      </p>
+                    </div>
+                  </details>
+
+                  <details data-reveal-card class="faq-item" name="faq">
+                    <summary class="faq-q">
+                      <span>Do you offer support after launch?</span>
+                      <span class="faq-icon" aria-hidden="true"></span>
+                    </summary>
+                    <div class="faq-a">
+                      <p>
+                        Yes. Launch is where the real feedback starts. Our
+                        support plans keep your product healthy and secure, and
+                        we keep improving it as you learn what your users need.
+                      </p>
+                    </div>
+                  </details>
+
+                  <details data-reveal-card class="faq-item" name="faq">
+                    <summary class="faq-q">
+                      <span>We're not technical. Can you still help?</span>
+                      <span class="faq-icon" aria-hidden="true"></span>
+                    </summary>
+                    <div class="faq-a">
+                      <p>
+                        Yes. We explain every decision in plain language, and
+                        one accountable lead keeps you up to date without the
+                        jargon.
+                      </p>
+                    </div>
+                  </details>
+
+                  <details data-reveal-card class="faq-item" name="faq">
+                    <summary class="faq-q">
+                      <span>How do we stay in touch during a project?</span>
+                      <span class="faq-icon" aria-hidden="true"></span>
+                    </summary>
+                    <div class="faq-a">
+                      <p>
+                        Through regular check-ins and a shared view of progress.
+                        You'll always know what's being worked on, what comes
+                        next and what we need from you.
+                      </p>
+                    </div>
+                  </details>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- CTA                                                           -->
+        <!-- ============================================================ -->
+        <section
+          id="contact"
+          class="page-cta page-cta--media"
+          aria-labelledby="about-cta-title"
+        >
+          <div class="page-cta-media" aria-hidden="true">
+            <img
+              src="./assets/about/cta-ai.jpg"
+              alt=""
+              width="1600"
+              height="1000"
+              loading="lazy"
+            />
+          </div>
+          <div class="shell">
+            <div data-reveal-block class="page-cta-copy">
+              <h2 id="about-cta-title" class="page-cta-title">
+                Let's build something<br />
+                people remember.
+              </h2>
+              <p class="page-lede">
+                Tell us where you want to go. We'll bring the team to get you
+                there.
+              </p>
+              <a href="./contact.html" class="hero-cta-primary cta-button">
+                Start a project
+                <img
+                  src="./assets/icons/arrow-right-primary.svg"
+                  alt=""
+                  width="20"
+                  height="20"
+                />
+              </a>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- Footer: same markup as index.html. #services and #contact resolve on
+         this page too; the home-only sections point back to index.html. -->
+    <footer id="footer" class="site-footer">
+      <div class="footer-inner">
+        <div data-reveal-block class="footer-top">
+          <div class="footer-brand">
+            <a
+              href="./index.html"
+              class="footer-lockup"
+              aria-label="Santo Tech Labs home"
+            >
+              <span class="footer-lockup-top">
+                <img
+                  src="./assets/footer/logo-mark.svg"
+                  alt=""
+                  aria-hidden="true"
+                  width="188"
+                  height="56"
+                  class="footer-logo-mark"
+                />
+                <span class="footer-wordmark">Tech labs</span>
+              </span>
+              <span class="footer-tagline">Global Technology Services</span>
+            </a>
+            <p class="footer-description">
+              Web development, app development, custom software, and AI-enabled
+              IT services for organizations building at global scale.
+            </p>
+            <ul
+              class="footer-social"
+              role="list"
+              aria-label="Santo Tech Labs on social media"
+            >
+              <li>
+                <a href="#" aria-label="Santo Tech Labs on LinkedIn">
+                  <svg
+                    viewBox="0 0 24 24"
+                    width="18"
+                    height="18"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M5 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.5h4V21H3z"
+                    />
+                    <path
+                      d="M14.4 9.2c-1.9 0-3 1-3.4 1.8V9.5H7.3c.05 1 0 11.5 0 11.5H11v-6.3c0-1.3.7-2.2 1.9-2.2s1.8.9 1.8 2.2V21h3.7v-6.8c0-3.2-1.7-5-4-5z"
+                    />
+                  </svg>
+                </a>
+              </li>
+              <li>
+                <a href="#" aria-label="Santo Tech Labs on X">
+                  <svg
+                    viewBox="0 0 24 24"
+                    width="18"
+                    height="18"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M3 3h5.3l4.2 5.7L17.6 3H21l-6.9 8.1L21.4 21h-5.3l-4.6-6.2L6 21H2.6l7.2-8.4z"
+                    />
+                  </svg>
+                </a>
+              </li>
+              <li>
+                <a href="#" aria-label="Santo Tech Labs on Instagram">
+                  <svg
+                    viewBox="0 0 24 24"
+                    width="18"
+                    height="18"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    aria-hidden="true"
+                  >
+                    <rect x="3.2" y="3.2" width="17.6" height="17.6" rx="5" />
+                    <circle cx="12" cy="12" r="3.8" />
+                    <circle
+                      cx="17"
+                      cy="7"
+                      r="1.1"
+                      fill="currentColor"
+                      stroke="none"
+                    />
+                  </svg>
+                </a>
+              </li>
+              <li>
+                <a href="#" aria-label="Santo Tech Labs on Facebook">
+                  <svg
+                    viewBox="0 0 24 24"
+                    width="18"
+                    height="18"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M13.3 21v-7.5h2.5l.4-2.9h-2.9V8.7c0-.8.3-1.4 1.5-1.4h1.5V4.7c-.3 0-1.2-.1-2.2-.1-2.2 0-3.7 1.3-3.7 3.8v2.2H7.9v2.9h2.5V21z"
+                    />
+                  </svg>
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="footer-columns">
+            <nav class="footer-column" aria-label="Services">
+              <h2 class="footer-column-title">Services</h2>
+              <ul class="footer-links">
+                <li><a href="./services.html">Design</a></li>
+                <li><a href="./services.html">Web Development</a></li>
+                <li><a href="./services.html">Mobile</a></li>
+                <li><a href="./services.html">Digital Marketing</a></li>
+                <li><a href="./services.html">Software</a></li>
+                <li><a href="./services.html">AI</a></li>
+              </ul>
+            </nav>
+
+            <nav class="footer-column" aria-label="Company">
+              <h2 class="footer-column-title">Company</h2>
+              <ul class="footer-links">
+                <li><a href="./about.html">About us</a></li>
+                <li><a href="./index.html#partner">Client services</a></li>
+                <li><a href="./index.html#model">Engagement models</a></li>
+                <li><a href="./index.html#care">How we work</a></li>
+                <li><a href="./index.html#model">Global delivery</a></li>
+                <li><a href="./contact.html">Contact us</a></li>
+              </ul>
+            </nav>
+
+            <div class="footer-column">
+              <h2 class="footer-column-title">Connect</h2>
+              <!-- Placeholder contact details — see CLAUDE.md. -->
+              <ul class="info-list" role="list">
+                <li>
+                  <span class="info-label">General enquiry</span>
+                  <a class="info-value" href="tel:+14165550134"
+                    >+1 416 555 0134</a
+                  >
+                </li>
+                <li>
+                  <span class="info-label">Sales</span>
+                  <a class="info-value" href="tel:+919876543210"
+                    >+91 98765 43210</a
+                  >
+                </li>
+                <li>
+                  <span class="info-label">Email</span>
+                  <a class="info-value" href="mailto:hello@santotechlabs.com"
+                    >hello@santotechlabs.com</a
+                  >
+                </li>
+                <li>
+                  <span class="info-label">Address</span>
+                  <address class="info-value">
+                    Suite 1200, 250 University Avenue, Toronto, ON M5H 3E5,
+                    Canada
+                  </address>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <p class="footer-copyright">
+            © 2026 Santo Tech Labs. All rights reserved.
+          </p>
+          <a
+            href="https://santotechlabs.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="footer-site-link"
+            >santotechlabs.com</a
+          >
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

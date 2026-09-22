@@ -1,0 +1,893 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Services — Santo Tech Labs</title>
+    <meta
+      name="description"
+      content="Design, web development, mobile, digital marketing, software and AI — digital experiences crafted by Santo Tech Labs."
+    />
+
+    <meta name="theme-color" content="#02091a" />
+
+    <link rel="icon" href="./favicon.ico" sizes="32x32" />
+    <link rel="icon" href="./assets/favicon/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="./assets/favicon/apple-touch-icon.png" />
+    <link rel="manifest" href="./assets/favicon/site.webmanifest" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;700&family=Solway:wght@300;700&family=Sora:wght@100;200;300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- No Swiper on this page: there is no carousel, and dist/app.js already
+         skips its setup when Swiper is absent. -->
+    <link rel="stylesheet" href="./assets/vendor/lenis/lenis.css" />
+    <link rel="stylesheet" href="./dist/app.css" />
+
+    <script src="./assets/vendor/gsap/gsap.min.js" defer></script>
+    <script src="./assets/vendor/gsap/ScrollTrigger.min.js" defer></script>
+    <script src="./assets/vendor/lenis/lenis.min.js" defer></script>
+    <script src="./dist/app.js" defer></script>
+  </head>
+  <body class="bg-hero-bg font-sora text-white">
+    <div data-scroll-progress class="scroll-progress" aria-hidden="true"></div>
+    <a
+      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-black focus:px-4 focus:py-2 focus:text-white"
+      href="#main"
+      >Skip to main content</a
+    >
+
+    <!-- One canvas wraps the page: it is the positioning context for the
+         absolute header, and carries the home hero's gradient behind the
+         dark sections. -->
+    <div class="page-canvas hero-section">
+      <!-- Header + mobile nav: same markup as index.html, with links pointing
+           back to the home page's sections. Keep the two in sync. -->
+      <header
+        data-nav
+        class="site-header z-40 flex items-center justify-between gap-6"
+      >
+        <a
+          href="./index.html"
+          class="flex items-center gap-3 leading-none"
+          aria-label="Santo Tech Labs home"
+        >
+          <img src="assets/images/logo.svg" alt="STL" class="site-logo" />
+        </a>
+
+        <nav
+          aria-label="Primary"
+          class="ml-auto hidden items-center gap-5 text-[15px] xl:flex"
+        >
+          <a
+            href="./services.html"
+            class="nav-link font-medium"
+            aria-current="page"
+            >What we do</a
+          >
+          <span aria-hidden="true" class="text-white/15">|</span>
+          <a href="./about.html" class="nav-link font-medium">Who we are</a>
+          <span aria-hidden="true" class="text-white/15">|</span>
+          <a href="./contact.html" class="nav-link font-medium">Let's talk</a>
+        </nav>
+
+        <div class="flex items-center gap-2">
+          <a
+            href="./contact.html"
+            aria-label="Start a project"
+            class="header-icon-btn hidden h-10 w-10 items-center justify-center text-white/80 hover:text-white sm:inline-flex"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              class="h-5 w-5"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.7"
+              aria-hidden="true"
+            >
+              <path
+                d="M22 16.92v3a2 2 0 01-2.18 2 19.86 19.86 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.86 19.86 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.13.96.37 1.9.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0122 16.92z"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </a>
+          <button
+            type="button"
+            data-nav-toggle
+            aria-controls="mobile-nav"
+            aria-expanded="false"
+            aria-label="Open menu"
+            class="header-icon-btn inline-flex h-10 w-10 items-center justify-center text-white/80 hover:text-white xl:hidden"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              class="h-5 w-5"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              aria-hidden="true"
+            >
+              <path d="M3 6h18M3 12h18M3 18h18" stroke-linecap="round" />
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <nav
+        id="mobile-nav"
+        data-nav-panel
+        hidden
+        aria-label="Mobile"
+        class="mobile-nav-panel rounded-2xl border border-white/10 bg-[#06122a]/95 px-6 py-5 backdrop-blur xl:hidden"
+      >
+        <ul class="flex flex-col gap-3 text-sm">
+          <li>
+            <a
+              href="./services.html"
+              aria-current="page"
+              class="block text-white hover:text-white"
+              >What we do</a
+            >
+          </li>
+          <li>
+            <a href="./about.html" class="block text-white/85 hover:text-white"
+              >Who we are</a
+            >
+          </li>
+          <li>
+            <a
+              href="./contact.html"
+              class="block text-white/85 hover:text-white"
+              >Let's talk</a
+            >
+          </li>
+        </ul>
+      </nav>
+
+      <main id="main">
+        <!-- ============================================================ -->
+        <!-- HERO — copy, then the six services as jump chips              -->
+        <!-- ============================================================ -->
+        <section data-hero class="page-hero" aria-labelledby="page-title">
+          <div class="shell">
+            <div data-reveal-block class="page-hero-copy">
+              <h1 id="page-title" class="page-title">
+                We create brands, experiences and technology that
+                <span class="hero-gradient-text">move people</span>.
+              </h1>
+              <p class="page-lede">
+                From creative direction and digital design to development,
+                marketing and AI, we bring ideas to life through thoughtful
+                digital experiences.
+              </p>
+              f
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================================ -->
+        <!-- WHAT WE DO — the six services as icon cards                   -->
+        <!-- ============================================================ -->
+        <section
+          id="services"
+          class="page-light"
+          aria-labelledby="services-list-title"
+        >
+          <div class="shell">
+            <div data-reveal-block class="page-statement">
+              <h2 id="services-list-title" class="page-statement-title">
+                What we do<span class="num-mark-dot">.</span>
+              </h2>
+              <p class="page-lede">
+                Six services and one team. Take a single one on its own, or
+                combine them into one piece of work &mdash; the people stay the
+                same either way.
+              </p>
+            </div>
+
+            <div class="svc-grid">
+              <article id="design" data-reveal-card class="svc-card">
+                <span
+                  class="svc-icon"
+                  style="background: #0085cd"
+                  aria-hidden="true"
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    width="26"
+                    height="26"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path
+                      d="M17 3a2.83 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"
+                    />
+                  </svg>
+                </span>
+                <div class="svc-card-body">
+                  <h3 class="svc-card-title">Design</h3>
+                  <p class="svc-card-desc">
+                    Brand identity, UX/UI, web design and creative direction.
+                  </p>
+                  <ul
+                    class="caps-list"
+                    role="list"
+                    aria-label="Design capabilities"
+                  >
+                    <li>Branding</li>
+                    <li>Visual Identity</li>
+                    <li>UX/UI</li>
+                    <li>Web Design</li>
+                    <li>Graphic Design</li>
+                  </ul>
+                </div>
+              </article>
+
+              <article id="web-development" data-reveal-card class="svc-card">
+                <span
+                  class="svc-icon"
+                  style="background: #3e51e3"
+                  aria-hidden="true"
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    width="26"
+                    height="26"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="m16 18 6-6-6-6" />
+                    <path d="m8 6-6 6 6 6" />
+                  </svg>
+                </span>
+                <div class="svc-card-body">
+                  <h3 class="svc-card-title">Web Development</h3>
+                  <p class="svc-card-desc">
+                    Fast, flexible and beautifully crafted digital experiences.
+                  </p>
+                  <ul
+                    class="caps-list"
+                    role="list"
+                    aria-label="Web development capabilities"
+                  >
+                    <li>Websites</li>
+                    <li>E-commerce</li>
+                    <li>WordPress</li>
+                    <li>React</li>
+                    <li>Frontend</li>
+                    <li>Web Applications</li>
+                  </ul>
+                </div>
+              </article>
+
+              <article id="mobile" data-reveal-card class="svc-card">
+                <span
+                  class="svc-icon"
+                  style="background: #4628cc"
+                  aria-hidden="true"
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    width="26"
+                    height="26"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <rect x="6" y="2" width="12" height="20" rx="2.5" />
+                    <path d="M11 18.5h2" />
+                  </svg>
+                </span>
+                <div class="svc-card-body">
+                  <h3 class="svc-card-title">Mobile</h3>
+                  <p class="svc-card-desc">
+                    Digital experiences designed for people on the move.
+                  </p>
+                  <ul
+                    class="caps-list"
+                    role="list"
+                    aria-label="Mobile capabilities"
+                  >
+                    <li>iOS</li>
+                    <li>Android</li>
+                    <li>Cross-platform</li>
+                    <li>Mobile UX</li>
+                    <li>App Development</li>
+                  </ul>
+                </div>
+              </article>
+
+              <article id="digital-marketing" data-reveal-card class="svc-card">
+                <span
+                  class="svc-icon"
+                  style="background: #7e5ef9"
+                  aria-hidden="true"
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    width="26"
+                    height="26"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M22 7 13.5 15.5l-5-5L2 17" />
+                    <path d="M16 7h6v6" />
+                  </svg>
+                </span>
+                <div class="svc-card-body">
+                  <h3 class="svc-card-title">Digital Marketing</h3>
+                  <p class="svc-card-desc">
+                    Creative campaigns that help brands get noticed and grow.
+                  </p>
+                  <ul
+                    class="caps-list"
+                    role="list"
+                    aria-label="Digital marketing capabilities"
+                  >
+                    <li>SEO</li>
+                    <li>PPC</li>
+                    <li>Social Media</li>
+                    <li>Content</li>
+                    <li>Email</li>
+                    <li>Analytics</li>
+                  </ul>
+                </div>
+              </article>
+
+              <article id="software" data-reveal-card class="svc-card">
+                <span
+                  class="svc-icon"
+                  style="background: #8a65d5"
+                  aria-hidden="true"
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    width="26"
+                    height="26"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <rect x="3" y="4" width="18" height="16" rx="2.5" />
+                    <path d="M3 9.5h18M9 9.5V20" />
+                  </svg>
+                </span>
+                <div class="svc-card-body">
+                  <h3 class="svc-card-title">Software</h3>
+                  <p class="svc-card-desc">
+                    Custom digital products built around the way your business
+                    works.
+                  </p>
+                  <ul
+                    class="caps-list"
+                    role="list"
+                    aria-label="Software capabilities"
+                  >
+                    <li>SaaS</li>
+                    <li>Enterprise</li>
+                    <li>Dashboards</li>
+                    <li>APIs</li>
+                    <li>Integrations</li>
+                    <li>Automation</li>
+                  </ul>
+                </div>
+              </article>
+
+              <article id="ai" data-reveal-card class="svc-card">
+                <span
+                  class="svc-icon"
+                  style="background: #e023f9"
+                  aria-hidden="true"
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    width="26"
+                    height="26"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path
+                      d="M12 3.2l1.9 5 4.9 1.9-4.9 1.9-1.9 5-1.9-5L5.2 10.1 10.1 8.2z"
+                    />
+                    <path
+                      d="M18.4 15.6l.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7z"
+                    />
+                  </svg>
+                </span>
+                <div class="svc-card-body">
+                  <h3 class="svc-card-title">AI</h3>
+                  <p class="svc-card-desc">
+                    Practical AI experiences built around real opportunities.
+                  </p>
+                  <ul
+                    class="caps-list"
+                    role="list"
+                    aria-label="AI capabilities"
+                  >
+                    <li>Generative AI</li>
+                    <li>AI Assistants</li>
+                    <li>LLMs</li>
+                    <li>Automation</li>
+                    <li>Data</li>
+                    <li>AI Integration</li>
+                  </ul>
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================================ -->
+        <!-- WAYS IN — four situations, each pointing at a mix of services -->
+        <!-- ============================================================ -->
+        <section class="page-care" aria-labelledby="svc-routes">
+          <div class="shell">
+            <div class="route-layout">
+              <div data-reveal-block class="care-head route-head">
+                <h2 id="svc-routes" class="care-title">
+                  Four ways in<span class="care-title-period">.</span>
+                </h2>
+                <p class="care-subtitle">
+                  Find the line that sounds like your situation &mdash; each one
+                  points to the services behind it.
+                </p>
+              </div>
+
+              <ul class="route-list" role="list">
+                <li data-reveal-card class="route-item">
+                  <span class="route-icon" aria-hidden="true">
+                    <svg
+                      viewBox="0 0 24 24"
+                      width="24"
+                      height="24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path d="M9.5 18h5" />
+                      <path d="M10 21.5h4" />
+                      <path
+                        d="M12 2.5a6.5 6.5 0 0 0-3.8 11.8V18h7.6v-3.7A6.5 6.5 0 0 0 12 2.5z"
+                      />
+                    </svg>
+                  </span>
+                  <div>
+                    <h3 class="route-title">
+                      You have an idea and nothing built yet
+                    </h3>
+                    <p class="route-desc">
+                      We shape it into something real &mdash; the brand, the
+                      product design, and a first version people can actually
+                      use and react to.
+                    </p>
+                    <ul
+                      class="caps-list"
+                      role="list"
+                      aria-label="Services involved"
+                    >
+                      <li>Design</li>
+                      <li>Web Development</li>
+                      <li>Mobile</li>
+                    </ul>
+                  </div>
+                </li>
+
+                <li data-reveal-card class="route-item">
+                  <span class="route-icon" aria-hidden="true">
+                    <svg
+                      viewBox="0 0 24 24"
+                      width="24"
+                      height="24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path d="M2 12h4.5l3 8 5-16 3 8H22" />
+                    </svg>
+                  </span>
+                  <div>
+                    <h3 class="route-title">
+                      Something is live, but it isn't performing
+                    </h3>
+                    <p class="route-desc">
+                      We find what is getting in the way &mdash; the experience,
+                      the speed, the funnel &mdash; fix it, then grow what is
+                      already working.
+                    </p>
+                    <ul
+                      class="caps-list"
+                      role="list"
+                      aria-label="Services involved"
+                    >
+                      <li>Design</li>
+                      <li>Web Development</li>
+                      <li>Digital Marketing</li>
+                    </ul>
+                  </div>
+                </li>
+
+                <li data-reveal-card class="route-item">
+                  <span class="route-icon" aria-hidden="true">
+                    <svg
+                      viewBox="0 0 24 24"
+                      width="24"
+                      height="24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                      <circle cx="9" cy="7" r="4" />
+                      <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                      <path d="M16.5 3.3a4 4 0 0 1 0 7.4" />
+                    </svg>
+                  </span>
+                  <div>
+                    <h3 class="route-title">Your team needs more hands</h3>
+                    <p class="route-desc">
+                      Senior designers and engineers join your team, work to
+                      your process and tools, and leave the work documented
+                      behind them.
+                    </p>
+                    <ul
+                      class="caps-list"
+                      role="list"
+                      aria-label="Services involved"
+                    >
+                      <li>Software</li>
+                      <li>Web Development</li>
+                      <li>Mobile</li>
+                    </ul>
+                  </div>
+                </li>
+
+                <li data-reveal-card class="route-item">
+                  <span class="route-icon" aria-hidden="true">
+                    <svg
+                      viewBox="0 0 24 24"
+                      width="24"
+                      height="24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path
+                        d="M12 3.2l1.9 5 4.9 1.9-4.9 1.9-1.9 5-1.9-5L5.2 10.1 10.1 8.2z"
+                      />
+                      <path
+                        d="M18.4 15.6l.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7z"
+                      />
+                    </svg>
+                  </span>
+                  <div>
+                    <h3 class="route-title">You want to put AI to work</h3>
+                    <p class="route-desc">
+                      We look for the places AI genuinely helps, prove it on
+                      something small, then build it into the product properly.
+                    </p>
+                    <ul
+                      class="caps-list"
+                      role="list"
+                      aria-label="Services involved"
+                    >
+                      <li>AI</li>
+                      <li>Software</li>
+                      <li>Design</li>
+                    </ul>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================================ -->
+        <!-- WAYS TO WORK — the shapes an engagement can take              -->
+        <!-- ============================================================ -->
+        <section class="page-light" aria-labelledby="svc-shapes">
+          <div class="shell">
+            <div data-reveal-block class="page-statement">
+              <h2 id="svc-shapes" class="page-statement-title">
+                Ways to work with us<span class="num-mark-dot">.</span>
+              </h2>
+              <p class="page-lede">
+                The same team and the same standards, in whichever shape suits
+                the work in front of you.
+              </p>
+            </div>
+
+            <ul class="shape-grid" role="list">
+              <li data-reveal-card class="shape-card">
+                <h3 class="shape-title">Fixed-scope project</h3>
+                <p class="shape-desc">
+                  A defined piece of work, planned and quoted before anything
+                  begins.
+                </p>
+                <ul class="shape-points" role="list">
+                  <li>Scope, milestones and price agreed up front</li>
+                  <li>Progress you can see at every milestone</li>
+                  <li>Documentation and handover included</li>
+                </ul>
+              </li>
+
+              <li data-reveal-card class="shape-card">
+                <h3 class="shape-title">Ongoing partnership</h3>
+                <p class="shape-desc">
+                  A regular block of design and engineering time for work that
+                  keeps evolving.
+                </p>
+                <ul class="shape-points" role="list">
+                  <li>A steady team you can plan around</li>
+                  <li>Priorities reviewed with you as you go</li>
+                  <li>Improvements, support and growth in one</li>
+                </ul>
+              </li>
+
+              <li data-reveal-card class="shape-card">
+                <h3 class="shape-title">Embedded team</h3>
+                <p class="shape-desc">
+                  Senior designers and engineers working inside your team, to
+                  your process.
+                </p>
+                <ul class="shape-points" role="list">
+                  <li>Your tools and your way of working</li>
+                  <li>Scale the team up or down as plans change</li>
+                  <li>Knowledge documented and left with you</li>
+                </ul>
+              </li>
+            </ul>
+
+            <p data-reveal-block class="shape-note">
+              Not sure which one fits?
+              <a href="./contact.html" class="contact-link"
+                >Tell us what you're building</a
+              >
+              &mdash; a short conversation is usually enough to work it out.
+            </p>
+          </div>
+        </section>
+
+        <!-- ============================================================ -->
+        <!-- CTA                                                           -->
+        <!-- ============================================================ -->
+        <section
+          id="contact"
+          class="page-cta"
+          aria-labelledby="services-cta-title"
+        >
+          <div class="shell">
+            <div data-reveal-block class="page-cta-copy">
+              <h2 id="services-cta-title" class="page-cta-title">
+                Have an idea?<br />
+                Let's make it happen.
+              </h2>
+              <p class="page-lede">
+                Tell us what you're building and let's find the right way to
+                bring it to life.
+              </p>
+              <a href="./contact.html" class="hero-cta-primary cta-button">
+                Start a project
+                <img
+                  src="./assets/icons/arrow-right-primary.svg"
+                  alt=""
+                  width="20"
+                  height="20"
+                />
+              </a>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- Footer: same markup as index.html. #services and #contact resolve on
+         this page too; the home-only sections point back to index.html. -->
+    <footer id="footer" class="site-footer">
+      <div class="footer-inner">
+        <div data-reveal-block class="footer-top">
+          <div class="footer-brand">
+            <a
+              href="./index.html"
+              class="footer-lockup"
+              aria-label="Santo Tech Labs home"
+            >
+              <span class="footer-lockup-top">
+                <img
+                  src="./assets/footer/logo-mark.svg"
+                  alt=""
+                  aria-hidden="true"
+                  width="188"
+                  height="56"
+                  class="footer-logo-mark"
+                />
+                <span class="footer-wordmark">Tech labs</span>
+              </span>
+              <span class="footer-tagline">Global Technology Services</span>
+            </a>
+            <p class="footer-description">
+              Web development, app development, custom software, and AI-enabled
+              IT services for organizations building at global scale.
+            </p>
+            <ul
+              class="footer-social"
+              role="list"
+              aria-label="Santo Tech Labs on social media"
+            >
+              <li>
+                <a href="#" aria-label="Santo Tech Labs on LinkedIn">
+                  <svg
+                    viewBox="0 0 24 24"
+                    width="18"
+                    height="18"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M5 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.5h4V21H3z"
+                    />
+                    <path
+                      d="M14.4 9.2c-1.9 0-3 1-3.4 1.8V9.5H7.3c.05 1 0 11.5 0 11.5H11v-6.3c0-1.3.7-2.2 1.9-2.2s1.8.9 1.8 2.2V21h3.7v-6.8c0-3.2-1.7-5-4-5z"
+                    />
+                  </svg>
+                </a>
+              </li>
+              <li>
+                <a href="#" aria-label="Santo Tech Labs on X">
+                  <svg
+                    viewBox="0 0 24 24"
+                    width="18"
+                    height="18"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M3 3h5.3l4.2 5.7L17.6 3H21l-6.9 8.1L21.4 21h-5.3l-4.6-6.2L6 21H2.6l7.2-8.4z"
+                    />
+                  </svg>
+                </a>
+              </li>
+              <li>
+                <a href="#" aria-label="Santo Tech Labs on Instagram">
+                  <svg
+                    viewBox="0 0 24 24"
+                    width="18"
+                    height="18"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    aria-hidden="true"
+                  >
+                    <rect x="3.2" y="3.2" width="17.6" height="17.6" rx="5" />
+                    <circle cx="12" cy="12" r="3.8" />
+                    <circle
+                      cx="17"
+                      cy="7"
+                      r="1.1"
+                      fill="currentColor"
+                      stroke="none"
+                    />
+                  </svg>
+                </a>
+              </li>
+              <li>
+                <a href="#" aria-label="Santo Tech Labs on Facebook">
+                  <svg
+                    viewBox="0 0 24 24"
+                    width="18"
+                    height="18"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M13.3 21v-7.5h2.5l.4-2.9h-2.9V8.7c0-.8.3-1.4 1.5-1.4h1.5V4.7c-.3 0-1.2-.1-2.2-.1-2.2 0-3.7 1.3-3.7 3.8v2.2H7.9v2.9h2.5V21z"
+                    />
+                  </svg>
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="footer-columns">
+            <nav class="footer-column" aria-label="Services">
+              <h2 class="footer-column-title">Services</h2>
+              <ul class="footer-links">
+                <li><a href="./services.html">Design</a></li>
+                <li><a href="./services.html">Web Development</a></li>
+                <li><a href="./services.html">Mobile</a></li>
+                <li><a href="./services.html">Digital Marketing</a></li>
+                <li><a href="./services.html">Software</a></li>
+                <li><a href="./services.html">AI</a></li>
+              </ul>
+            </nav>
+
+            <nav class="footer-column" aria-label="Company">
+              <h2 class="footer-column-title">Company</h2>
+              <ul class="footer-links">
+                <li><a href="./about.html">About us</a></li>
+                <li><a href="./index.html#partner">Client services</a></li>
+                <li><a href="./index.html#model">Engagement models</a></li>
+                <li><a href="./index.html#care">How we work</a></li>
+                <li><a href="./index.html#model">Global delivery</a></li>
+                <li><a href="./contact.html">Contact us</a></li>
+              </ul>
+            </nav>
+
+            <div class="footer-column">
+              <h2 class="footer-column-title">Connect</h2>
+              <!-- Placeholder contact details — see CLAUDE.md. -->
+              <ul class="info-list" role="list">
+                <li>
+                  <span class="info-label">General enquiry</span>
+                  <a class="info-value" href="tel:+14165550134"
+                    >+1 416 555 0134</a
+                  >
+                </li>
+                <li>
+                  <span class="info-label">Sales</span>
+                  <a class="info-value" href="tel:+919876543210"
+                    >+91 98765 43210</a
+                  >
+                </li>
+                <li>
+                  <span class="info-label">Email</span>
+                  <a class="info-value" href="mailto:hello@santotechlabs.com"
+                    >hello@santotechlabs.com</a
+                  >
+                </li>
+                <li>
+                  <span class="info-label">Address</span>
+                  <address class="info-value">
+                    Suite 1200, 250 University Avenue, Toronto, ON M5H 3E5,
+                    Canada
+                  </address>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <p class="footer-copyright">
+            © 2026 Santo Tech Labs. All rights reserved.
+          </p>
+          <a
+            href="https://santotechlabs.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="footer-site-link"
+            >santotechlabs.com</a
+          >
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

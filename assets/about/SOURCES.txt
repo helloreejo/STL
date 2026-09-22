@@ -1,0 +1,8 @@
+Stock photography used on about.html — Pexels License (free for commercial use,
+no attribution required; https://www.pexels.com/license/). Downloaded cropped
+via the images.pexels.com CDN. Replace with the studio's own photos when available.
+
+hero-team.jpg    https://www.pexels.com/photo/7988207/   (2000x1200 crop) hero background
+team-collab.jpg  https://www.pexels.com/photo/12903101/  (1040x1300 crop) who-we-are collage
+ai-hand.jpg      https://www.pexels.com/photo/8849287/   (560x560 crop)   collage inset
+cta-ai.jpg       https://www.pexels.com/photo/14314636/  (1600x1000 crop) closing CTA
